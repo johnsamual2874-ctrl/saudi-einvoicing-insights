@@ -78,16 +78,19 @@
 
                 querySnapshot.forEach((doc) => {
                     const post = doc.data();
+                    // Fallback to title conversion if explicit slug parameter field value was left blank in document node
+                    const targetSlug = post.slug || post.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                    
                     grid.innerHTML += `
                         <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between interactive-card">
                             <div class="space-y-3.5">
                                 <span class="bg-emerald-500/10 text-emerald-400 text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md border border-emerald-500/15 inline-block">${post.category}</span>
-                                <h3 class="text-lg font-bold text-white tracking-tight hover:text-emerald-400 cursor-pointer transition line-clamp-2" onclick="window.location.href='post.html?id=${post.id}'">${post.title}</h3>
+                                <h3 class="text-lg font-bold text-white tracking-tight hover:text-emerald-400 cursor-pointer transition line-clamp-2" onclick="window.location.href='post.html?article=${targetSlug}'">${post.title}</h3>
                                 <p class="text-slate-400 text-xs font-light leading-relaxed line-clamp-3">${post.summary}</p>
                             </div>
                             <div class="pt-5 mt-5 border-t border-white/5 flex items-center justify-between text-[11px] font-medium text-slate-500">
                                 <span><i class="fa-solid fa-calendar-days mr-1 text-slate-600"></i> ${post.date}</span>
-                                <a href="post.html?id=${post.id}" class="text-emerald-400 font-bold hover:text-emerald-300 flex items-center gap-1 transition">Analyze Guide <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
+                                <a href="post.html?article=${targetSlug}" class="text-emerald-400 font-bold hover:text-emerald-300 flex items-center gap-1 transition">Analyze Guide <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
                             </div>
                         </div>`;
                 });
