@@ -60,7 +60,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDTbAZ1-8IQdNESIZ0Sg9Si3bGD0jL5D-M",
@@ -77,23 +77,39 @@
 
         async function loadTargetArticleDocument() {
             const URLParameters = new URLSearchParams(window.location.search);
-            const postIDToken = URLParameters.get('id');
+            const postSlugToken = URLParameters.get('article');
 
-            if(!postIDToken) {
+            if(!postSlugToken) {
                 document.getElementById('error-fallback-view').classList.remove('hidden');
                 return;
             }
 
             try {
-                const targetReferenceNode = await getDoc(doc(db, "posts", String(postIDToken)));
-                if(targetReferenceNode.exists()) {
-                    const post = targetReferenceNode.data();
-                    document.getElementById('article-view-title').innerText = post.title;
-                    document.getElementById('article-view-category').innerText = post.category;
-                    document.getElementById('article-view-date').innerHTML = `<i class="fa-solid fa-calendar mr-1.5 text-slate-600"></i> ${post.date}`;
-                    document.getElementById('article-view-content').innerHTML = post.content;
+                // Fetch collection list array metrics context nodes
+                const querySnapshot = await getDocs(collection(db, "posts"));
+                let matchedPost = null;
+
+                querySnapshot.forEach((doc) => {
+                    const post = doc.data();
+                    const computedSlug = post.slug || post.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                    if(computedSlug === postSlugToken) {
+                        matchedPost = post;
+                    }
+                });
+
+                if(matchedPost) {
+                    document.getElementById('article-view-title').innerText = matchedPost.title;
+                    document.getElementById('article-view-category').innerText = matchedPost.category;
+                    document.getElementById('article-view-date').innerHTML = `<i class="fa-solid fa-calendar mr-1.5 text-slate-600"></i> ${matchedPost.date}`;
+                    document.getElementById('article-view-content').innerHTML = matchedPost.content;
                     
                     document.getElementById('article-view-core').classList.remove('hidden');
+                    document.title = `${matchedPost.title} | Saudi E-Invoicing Insights`;
+
+                    // ⚡ ADVANCED HISTORY REWRITE: Wipe out parameters from address path
+                    const cleanPathURL = window.location.pathname.replace('post.html', '') + postSlugToken;
+                    window.history.replaceState({}, document.title, cleanPathURL);
+
                 } else {
                     document.getElementById('error-fallback-view').classList.remove('hidden');
                 }
