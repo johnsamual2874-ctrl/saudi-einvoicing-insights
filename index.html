@@ -103,7 +103,7 @@
                     <button onclick="showSection('blog')" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 transition">View All Indices <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
                 <div id="featured-posts-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
+                </div>
             </div>
         </section>
 
@@ -113,17 +113,17 @@
                 <p class="text-sm text-slate-400 font-light">Searchable technical documentation, wave adjustments, and configuration logs.</p>
             </div>
             <div id="all-posts-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                </div>
+            </div>
         </section>
 
         <section id="article-view-section" class="hidden animate-fade-in">
             <div class="max-w-4xl mx-auto">
-                <button onclick="showSection('blog')" class="mb-8 inline-flex items-center font-bold text-xs text-slate-400 hover:text-white transition bg-slate-900 border border-white/5 px-4 py-2.5 rounded-xl shadow-sm">
+                <button onclick="showSection('blog')" class="mb-8 inline-flex items-center font-bold text-xs text-slate-400 hover:text-white transition bg-slate-900 border border-white/5 px-4 py-2.5 rounded-xl shadow-sm cursor-pointer">
                     <i class="fa-solid fa-chevron-left mr-2 text-[10px]"></i> Return to Feed
                 </button>
                 <article class="glass-panel rounded-3xl p-6 md:p-14 shadow-2xl relative">
                     <div class="space-y-4 border-b border-slate-800 pb-8 mb-8">
-                        <span id="article-view-category" class="bg-emerald-500/10 text-emerald-400 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-md inline-block border border-emerald-500/20">Category</span>
+                        <span id="article-view-category" class="bg-emerald-500/10 text-emerald-400 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-md border border-emerald-500/20 inline-block">Category</span>
                         <h1 id="article-view-title" class="text-2xl md:text-4xl font-black text-white tracking-tight leading-tight">Article Headline Placeholder</h1>
                         <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500 pt-2 font-medium">
                             <span id="article-view-date" class="flex items-center gap-1.5"><i class="fa-solid fa-calendar text-slate-600"></i> Date</span>
@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     <div id="article-view-content" class="rendered-content text-slate-300 text-base md:text-lg tracking-normal font-light">
-                        </div>
+                    </div>
                 </article>
             </div>
         </section>
@@ -181,34 +181,51 @@
                 posts.forEach(post => { allGrid.innerHTML += createCardHtml(post); });
                 posts.slice(0, 3).forEach(post => { featuredGrid.innerHTML += createCardHtml(post); });
                 window.cachedBlogPosts = posts;
+                
+                // Read incoming path params if direct navigation slug hits root scope layout
+                checkIncomingPathSlugRoute();
+
             } catch (error) {
                 console.error("Firebase Database Load Error: ", error);
             }
         }
 
         function createCardHtml(post) {
+            // Generate clean runtime string fallback parameter if field parameter node structural element was left unassigned
+            const activeSlug = post.slug || post.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+            
             return `
                 <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between interactive-card">
                     <div class="space-y-3.5">
                         <span class="bg-emerald-500/10 text-emerald-400 text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md border border-emerald-500/15 inline-block">${post.category}</span>
-                        <h3 class="text-lg font-bold text-white tracking-tight hover:text-emerald-400 cursor-pointer transition line-clamp-2" onclick="viewArticle(${post.id})">${post.title}</h3>
+                        <h3 class="text-lg font-bold text-white tracking-tight hover:text-emerald-400 cursor-pointer transition line-clamp-2" onclick="viewArticleBySlug('${activeSlug}')">${post.title}</h3>
                         <p class="text-slate-400 text-xs font-light leading-relaxed line-clamp-3">${post.summary}</p>
                     </div>
                     <div class="pt-5 mt-5 border-t border-white/5 flex items-center justify-between text-[11px] font-medium text-slate-500">
                         <span><i class="fa-solid fa-calendar-days mr-1 text-slate-600"></i> ${post.date}</span>
-                        <button onclick="viewArticle(${post.id})" class="text-emerald-400 font-bold hover:text-emerald-300 flex items-center gap-1 transition">Analyze Guide <i class="fa-solid fa-chevron-right text-[9px]"></i></button>
+                        <button onclick="viewArticleBySlug('${activeSlug}')" class="text-emerald-400 font-bold hover:text-emerald-300 flex items-center gap-1 transition cursor-pointer">Analyze Guide <i class="fa-solid fa-chevron-right text-[9px]"></i></button>
                     </div>
                 </div>`;
         }
 
-        window.viewArticle = function(postId) {
-            const target = window.cachedBlogPosts.find(p => p.id === postId);
+        window.viewArticleBySlug = function(targetSlug) {
+            const target = window.cachedBlogPosts.find(p => {
+                const computed = p.slug || p.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return computed === targetSlug;
+            });
+
             if(target) {
                 document.getElementById('article-view-title').innerText = target.title;
                 document.getElementById('article-view-category').innerText = target.category;
                 document.getElementById('article-view-date').innerHTML = `<i class="fa-solid fa-calendar mr-1.5 text-slate-600"></i> ${target.date}`;
                 document.getElementById('article-view-content').innerHTML = target.content;
+                
                 showSection('article-view');
+                document.title = `${target.title} | Saudi E-Invoicing Insights`;
+
+                // ⚡ HISTORY REWRITE ENGINE: Replaces parameter tokens with text path strings dynamically
+                const cleanSlugPath = window.location.pathname.replace('index.html', '') + targetSlug;
+                window.history.pushState({ articleSlug: targetSlug }, document.title, cleanSlugPath);
             }
         };
 
@@ -224,12 +241,38 @@
             if(sectionId === 'home') {
                 homeBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-emerald-400 bg-emerald-500/10 transition duration-200";
                 blogBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition duration-200";
+                // Reset address bar to parent path when clicking home navigate triggers
+                window.history.pushState({}, "Saudi E-Invoicing Insights", window.location.pathname.split('/').slice(0, -1).join('/') + '/');
+                document.title = "Saudi E-Invoicing Insights | Independent ZATCA Compliance Hub";
             } else if(sectionId === 'blog') {
                 blogBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-emerald-400 bg-emerald-500/10 transition duration-200";
                 homeBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition duration-200";
             }
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
+
+        function checkIncomingPathSlugRoute() {
+            // Evaluates deep links path references on page initialize setup runtime parameters
+            const structuralPathSegment = window.location.pathname.split('/').filter(Boolean).pop();
+            if(structuralPathSegment && structuralPathSegment !== 'index.html' && structuralPathSegment !== 'blog.html') {
+                const verifiedObjectiveMatch = window.cachedBlogPosts.some(p => {
+                    const comp = p.slug || p.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                    return comp === structuralPathSegment;
+                });
+                if(verifiedObjectiveMatch) {
+                    window.viewArticleBySlug(structuralPathSegment);
+                }
+            }
+        }
+
+        // Manage standard manual back button browser event updates
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.articleSlug) {
+                window.viewArticleBySlug(event.state.articleSlug);
+            } else {
+                showSection('home');
+            }
+        });
 
         fetchAndRenderFeeds();
     </script>
