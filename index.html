@@ -173,34 +173,69 @@
         </div>
     </footer>
 
-    <script>
-        // Sample Core Production-grade Article Arrays for High-SEO Seed Content
-        const DEFAULT_POSTS = [
-            {
-                id: 1,
-                title: "How to Configure ZATCA Phase 2 Cryptographic Integration Safely",
-                category: "ZATCA Compliance",
-                date: "May 18, 2026",
-                summary: "An analytical evaluation mapping API validation criteria, cryptographic stamp configuration, and avoiding integration failure logs.",
-                content: "<p>Operating within the secondary integration phase mandated by the Zakat, Tax and Customs Authority (ZATCA) requires systematic structural verification metrics across all standard transaction logs. Unlike simple static invoices, compliance processing centers around the real-time execution of cryptographic seals.</p><h3>The Core Technical Requirements</h3><p>Every structural submission bundle tracking simplified tax calculations must preserve a fixed UUID count parameter alongside your base validation variables. Manually attempting to compile cryptographic hashes using basic custom logic can quickly introduce syntax errors or trigger security validation blocks on the official portal APIs.</p><h3>Preventing Sync Timeouts</h3><p>Production database records must match target validation properties cleanly before initiating request hooks. Ensuring your transmission nodes use unified time variables prevents submission drops and keeps validation status tracks clear.</p>"
-            },
-            {
-                id: 2,
-                title: "Understanding ZATCA Phase 2 Audit Rules and Deadlines",
-                category: "Regulations",
-                date: "May 12, 2026",
-                summary: "A structural analysis tracking targeted revenue waves, voluntary audit disclosures, and financial liability metrics for businesses.",
-                content: "<p>The implementation phase introduces strict tracking requirements. Companies transition into active regulatory pools based on annual fiscal turnover data, making direct cloud connectivity with central government gateways mandatory for daily transactions.</p><h3>Key Wave Criteria</h3><p>Maintaining localized, permanent ledger transparency remains necessary to clear spot checks smoothly. Engineering workflows around structural auditing standards mitigates compliance risks and keeps historical accounting cycles protected.</p>"
-            }
-        ];
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        function getPosts() {
-            let data = localStorage.getItem('insights_blog_posts');
-            if(!data) {
-                localStorage.setItem('insights_blog_posts', JSON.stringify(DEFAULT_POSTS));
-                return DEFAULT_POSTS;
+        // Your live web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDTbAZ1-8IQdNESIZ0Sg9Si3bGD0jL5D-M",
+            authDomain: "saudi-einvoicing-insights.firebaseapp.com",
+            projectId: "saudi-einvoicing-insights",
+            storageBucket: "saudi-einvoicing-insights.firebasestorage.app",
+            messagingSenderId: "229055730751",
+            appId: "1:229055730751:web:003941a6465e368c31948a",
+            measurementId: "G-92M22ZP5JH"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // Fetch Articles Dynamically from Cloud Firestore Database
+        async function fetchAndRenderFeeds() {
+            try {
+                const blogCollectionRef = collection(db, "posts");
+                const q = query(blogCollectionRef, orderBy("id", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                const posts = [];
+                querySnapshot.forEach((doc) => {
+                    posts.push(doc.data());
+                });
+
+                const featuredGrid = document.getElementById('featured-posts-grid');
+                const allGrid = document.getElementById('all-posts-grid');
+                
+                featuredGrid.innerHTML = '';
+                allGrid.innerHTML = '';
+
+                if (posts.length === 0) {
+                    const fallbackHtml = `
+                        <div class="col-span-full text-center py-12 text-slate-500 text-sm">
+                            <i class="fa-solid fa-box-open text-2xl mb-2 block"></i> No compliance articles found.
+                        </div>`;
+                    featuredGrid.innerHTML = fallbackHtml;
+                    allGrid.innerHTML = fallbackHtml;
+                    return;
+                }
+
+                posts.forEach(post => {
+                    const cardHtml = createCardHtml(post);
+                    allGrid.innerHTML += cardHtml;
+                });
+
+                posts.slice(0, 3).forEach(post => {
+                    featuredGrid.innerHTML += createCardHtml(post);
+                });
+
+                window.cachedBlogPosts = posts;
+
+            } catch (error) {
+                console.error("Firebase Database Error:", error);
             }
-            return JSON.stringify(data).startsWith('[') || JSON.stringify(data).startsWith('"') ? JSON.parse(data) : DEFAULT_POSTS;
         }
 
         function createCardHtml(post) {
@@ -215,35 +250,31 @@
                         <span><i class="fa-solid fa-calendar-days mr-1 text-slate-600"></i> ${post.date}</span>
                         <button onclick="viewArticle(${post.id})" class="text-emerald-400 font-bold hover:text-emerald-300 flex items-center gap-1 transition">Analyze Guide <i class="fa-solid fa-chevron-right text-[9px]"></i></button>
                     </div>
-                </div>
-            `;
+                </div>`;
         }
 
-        function renderFeeds() {
-            const posts = getPosts();
-            const featuredGrid = document.getElementById('featured-posts-grid');
-            const allGrid = document.getElementById('all-posts-grid');
-            
-            featuredGrid.innerHTML = '';
-            allGrid.innerHTML = '';
+        window.viewArticle = function(postId) {
+            const target = window.cachedBlogPosts.find(p => p.id === postId);
+            if(target) {
+                document.getElementById('article-view-title').innerText = target.title;
+                document.getElementById('article-view-category').innerText = target.category;
+                document.getElementById('article-view-date').innerHTML = `<i class="fa-solid fa-calendar mr-1.5 text-slate-600"></i> ${target.date}`;
+                document.getElementById('article-view-content').innerHTML = target.content;
+                
+                const paragraphNodes = document.getElementById('article-view-content').querySelectorAll('p');
+                paragraphNodes.forEach(p => {
+                    p.className = "text-slate-400 text-sm md:text-base leading-relaxed font-light mb-4 text-justify";
+                });
+                showSection('article-view');
+            }
+        };
 
-            posts.forEach(post => {
-                allGrid.innerHTML += createCardHtml(post);
-            });
-
-            posts.slice(0, 3).forEach(post => {
-                featuredGrid.innerHTML += createCardHtml(post);
-            });
-        }
-
-        function showSection(sectionId) {
+        window.showSection = function(sectionId) {
             document.getElementById('home-section').classList.add('hidden');
             document.getElementById('blog-section').classList.add('hidden');
             document.getElementById('article-view-section').classList.add('hidden');
-            
             document.getElementById(`${sectionId}-section`).classList.remove('hidden');
             
-            // Adjust Navigation Tab Highlight States
             const homeBtn = document.getElementById('nav-home');
             const blogBtn = document.getElementById('nav-blog');
             
@@ -254,32 +285,10 @@
                 blogBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-emerald-400 bg-emerald-500/10 transition duration-200";
                 homeBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition duration-200";
             }
-            
             window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function viewArticle(postId) {
-            const posts = getPosts();
-            const target = posts.find(p => p.id === postId);
-            if(target) {
-                document.getElementById('article-view-title').innerText = target.title;
-                document.getElementById('article-view-category').innerText = target.category;
-                document.getElementById('article-view-date').innerHTML = `<i class="fa-solid fa-calendar mr-1.5 text-slate-600"></i> ${target.date}`;
-                document.getElementById('article-view-content').innerHTML = target.content;
-                
-                // Track visual alignment classes inside dynamic content wrapper tags
-                const paragraphNodes = document.getElementById('article-view-content').querySelectorAll('p');
-                paragraphNodes.forEach(p => {
-                    if(!p.className) p.className = "text-slate-400 text-sm md:text-base leading-relaxed font-light mb-4";
-                });
-                
-                showSection('article-view');
-            }
-        }
-
-        window.onload = function() {
-            renderFeeds();
         };
+
+        fetchAndRenderFeeds();
     </script>
 </body>
 </html>
