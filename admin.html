@@ -21,11 +21,9 @@
     <div id="security-lock-screen" class="fixed inset-0 bg-slate-950 z-[9999] flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-6 md:p-8 shadow-2xl space-y-5 text-center">
             <div class="space-y-2">
-                <div class="w-16 h-16 bg-emerald-950 text-emerald-400 border border-emerald-500/20 rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-xl">
-                    <i class="fa-solid fa-vault"></i>
-                </div>
+                <div class="w-16 h-16 bg-emerald-950 text-emerald-400 border border-emerald-500/20 rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-xl"><i class="fa-solid fa-vault"></i></div>
                 <h2 class="text-xl font-black tracking-tight text-white pt-2">Console Security Authorization</h2>
-                <p class="text-xs text-slate-400">Authenticate your administrative account credentials to map secure data pools.</p>
+                <p class="text-xs text-slate-400">Authenticate your administrative credentials to sync database nodes.</p>
             </div>
             <div class="space-y-4 text-left">
                 <div class="space-y-1.5">
@@ -37,33 +35,29 @@
                     <input type="password" id="security-password" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 text-sm">
                 </div>
                 <div id="security-error-msg" class="text-xs text-red-400 font-semibold hidden flex items-center"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Invalid Credentials. Access Denied.</div>
-                <button onclick="verifyAccessAuthentication()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold py-3 px-4 rounded-xl shadow-lg shadow-emerald-950 transition duration-150 flex items-center justify-center">
-                    Verify Identity <i class="fa-solid fa-shield-halved ml-2 text-xs"></i>
-                </button>
+                <button onclick="verifyAccessAuthentication()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold py-3 px-4 rounded-xl shadow-lg shadow-emerald-950 transition duration-150 flex items-center justify-center">Verify Identity <i class="fa-solid fa-shield-halved ml-2 text-xs"></i></button>
             </div>
         </div>
     </div>
 
     <div id="dashboard-app-workspace" class="hidden flex-1 flex flex-col">
-        
         <header class="bg-slate-900 border-b border-slate-800 px-4 sm:px-6 py-4 flex items-center justify-between sticky top-0 z-50">
             <div class="flex items-center space-x-3">
                 <div class="bg-emerald-600 p-2 rounded-xl text-white shadow-md shadow-emerald-950"><i class="fa-solid fa-gauge-high text-lg"></i></div>
                 <div>
                     <h1 class="text-base font-bold tracking-tight text-white">SEO Compliance Control Desk</h1>
-                    <p class="text-xs text-slate-400">Database Engine: <span class="text-emerald-400 font-mono">Cloud Firestore Node</span></p>
+                    <p class="text-xs text-slate-400">Database Engine: <span class="text-emerald-400 font-mono">Cloud Firestore + Storage Node</span></p>
                 </div>
             </div>
             <div class="flex items-center space-x-3">
                 <a href="index.html" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl transition flex items-center shadow-md"><i class="fa-solid fa-globe mr-1.5"></i> Live Site</a>
-                <button onclick="terminateSessionLogout()" class="text-slate-400 hover:text-red-400 text-xs font-bold transition flex items-center bg-slate-950/40 border border-slate-800 px-3 py-2 rounded-xl" title="Terminate Active Session Identity"><i class="fa-solid fa-power-off"></i></button>
+                <button onclick="terminateSessionLogout()" class="text-slate-400 hover:text-red-400 text-xs font-bold transition flex items-center bg-slate-950/40 border border-slate-800 px-3 py-2 rounded-xl"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </header>
 
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-3 gap-8 w-full flex-1">
-            
             <div class="lg:col-span-2 space-y-6">
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-5 shadow-xl relative">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-5 shadow-xl">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                         <h2 id="editor-panel-title" class="text-lg font-black tracking-tight text-white flex items-center text-emerald-400"><i class="fa-solid fa-square-plus mr-2"></i> Compose New Article</h2>
                         <button id="cancel-edit-btn" onclick="resetEditorState()" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-1.5 rounded-lg border border-slate-700 transition">Cancel Revision Mode</button>
@@ -72,8 +66,8 @@
                     <input type="hidden" id="edit-post-id" value="">
                     
                     <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Article Headline Headline (H1 Search Anchor)</label>
-                        <input type="text" id="post-title" onkeyup="autoGenerateSEOSlug()" placeholder="e.g., Implementing Automated ZATCA Validation Frameworks" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-emerald-500 text-sm transition">
+                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Article Headline Title</label>
+                        <input type="text" id="post-title" onkeyup="autoGenerateSEOSlug()" placeholder="e.g., Implementing Automated ZATCA Validation Frameworks" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-emerald-500 text-sm">
                     </div>
 
                     <div class="grid md:grid-cols-3 gap-4">
@@ -93,30 +87,35 @@
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Meta Description Summary Snippet (SERP Optimization)</label>
-                        <textarea id="post-summary" rows="2" placeholder="Search snippet text constructed to enhance click-through performance indexing charts..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white placeholder-slate-700 focus:outline-none focus:border-emerald-500 text-sm resize-none tracking-normal"></textarea>
+                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Meta Description Summary Snippet</label>
+                        <textarea id="post-summary" rows="2" placeholder="Search snippet text constructed to enhance click-through performance indexing charts..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500 text-sm resize-none"></textarea>
                     </div>
 
                     <div class="space-y-1.5">
                         <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Rich Text Content Core Body</label>
-                        <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden focus-within:border-emerald-500 transition shadow-inner">
+                        <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden focus-within:border-emerald-500 transition">
                             <div class="bg-slate-900 border-b border-slate-800 p-1.5 flex flex-wrap gap-1 items-center">
-                                <button type="button" onclick="execCmd('bold')" class="editor-btn" title="Bold Text"><i class="fa-solid fa-bold"></i></button>
-                                <button type="button" onclick="execCmd('italic')" class="editor-btn" title="Italic Text"><i class="fa-solid fa-italic"></i></button>
-                                <button type="button" onclick="execCmd('underline')" class="editor-btn" title="Underline Text"><i class="fa-solid fa-underline"></i></button>
+                                <button type="button" onclick="execCmd('bold')" class="editor-btn"><i class="fa-solid fa-bold"></i></button>
+                                <button type="button" onclick="execCmd('italic')" class="editor-btn"><i class="fa-solid fa-italic"></i></button>
+                                <button type="button" onclick="execCmd('underline')" class="editor-btn"><i class="fa-solid fa-underline"></i></button>
                                 <div class="w-[1px] h-5 bg-slate-800 mx-1"></div>
-                                <button type="button" onclick="execCmd('formatBlock', '<h3>')" class="editor-btn text-xs font-bold" title="Heading Level 3">H3</button>
-                                <button type="button" onclick="execCmd('formatBlock', '<h4>')" class="editor-btn text-xs font-bold" title="Heading Level 4">H4</button>
-                                <button type="button" onclick="execCmd('formatBlock', '<p>')" class="editor-btn text-xs" title="Paragraph Standard">Paragraph</button>
+                                <button type="button" onclick="execCmd('formatBlock', '<h3>')" class="editor-btn text-xs font-bold">H3</button>
+                                <button type="button" onclick="execCmd('formatBlock', '<h4>')" class="editor-btn text-xs font-bold">H4</button>
+                                <button type="button" onclick="execCmd('formatBlock', '<p>')" class="editor-btn text-xs">P</button>
                                 <div class="w-[1px] h-5 bg-slate-800 mx-1"></div>
-                                <button type="button" onclick="execCmd('justifyLeft')" class="editor-btn" title="Justify Left"><i class="fa-solid fa-align-left"></i></button>
-                                <button type="button" onclick="execCmd('justifyCenter')" class="editor-btn" title="Justify Center"><i class="fa-solid fa-align-center"></i></button>
-                                <button type="button" onclick="execCmd('justifyRight')" class="editor-btn" title="Justify Right"><i class="fa-solid fa-align-right"></i></button>
-                                <button type="button" onclick="execCmd('justifyFull')" class="editor-btn" title="Justify Full Realignment Layout"><i class="fa-solid fa-align-justify"></i></button>
+                                <button type="button" onclick="execCmd('justifyLeft')" class="editor-btn"><i class="fa-solid fa-align-left"></i></button>
+                                <button type="button" onclick="execCmd('justifyCenter')" class="editor-btn"><i class="fa-solid fa-align-center"></i></button>
+                                <button type="button" onclick="execCmd('justifyRight')" class="editor-btn"><i class="fa-solid fa-align-right"></i></button>
+                                <button type="button" onclick="execCmd('justifyFull')" class="editor-btn"><i class="fa-solid fa-align-justify"></i></button>
                                 <div class="w-[1px] h-5 bg-slate-800 mx-1"></div>
-                                <button type="button" onclick="insertLinkPrompt()" class="editor-btn" title="Insert Dynamic Hyperlink Target"><i class="fa-solid fa-link"></i></button>
-                                <button type="button" onclick="execCmd('unlink')" class="editor-btn" title="Purge Selected Anchor References"><i class="fa-solid fa-link-slash"></i></button>
-                                <button type="button" onclick="execCmd('removeFormat')" class="editor-btn text-red-400" title="Clear Structural Format Styles"><i class="fa-solid fa-eraser"></i></button>
+                                <button type="button" onclick="insertLinkPrompt()" class="editor-btn"><i class="fa-solid fa-link"></i></button>
+                                <button type="button" onclick="execCmd('unlink')" class="editor-btn"><i class="fa-solid fa-link-slash"></i></button>
+                                
+                                <button type="button" onclick="triggerNativeFilePicker()" class="editor-btn text-emerald-400 font-bold flex gap-1 items-center px-2.5" title="Upload image asset directly from your computer device files"><i class="fa-solid fa-cloud-arrow-up text-xs"></i> Add Image</button>
+                                <input type="file" id="hidden-file-input-element" accept="image/*" class="hidden">
+                                
+                                <button type="button" onclick="execCmd('removeFormat')" class="editor-btn text-red-400"><i class="fa-solid fa-eraser"></i></button>
+                                <span id="upload-status-indicator-tag" class="text-[10px] font-bold uppercase text-amber-400 px-2 hidden animate-pulse">Processing Upload...</span>
                             </div>
                             <div id="wysiwyg-editor-viewport" contenteditable="true" class="w-full min-h-[340px] max-h-[500px] overflow-y-auto px-4 py-4 text-white focus:outline-none text-base bg-slate-950 leading-relaxed space-y-4">
                                 <p>Write your article here...</p>
@@ -137,11 +136,9 @@
                     <div class="border-b border-slate-800 pb-3 mb-4 flex items-center justify-between">
                         <div class="space-y-0.5">
                             <h3 class="text-sm font-extrabold tracking-tight text-slate-200 flex items-center"><i class="fa-solid fa-folder-tree mr-2 text-emerald-400"></i> Indexed Feed Archive</h3>
-                            <p class="text-[10px] text-slate-500 font-medium">Real-time live repository entries.</p>
                         </div>
                         <span id="post-counter-badge" class="bg-slate-950 text-slate-400 font-mono text-[10px] px-2.5 py-0.5 rounded-full border border-slate-800">0 Posts</span>
                     </div>
-                    
                     <div id="admin-posts-container" class="space-y-3 overflow-y-auto flex-1 pr-1">
                         <div class="text-center py-12 text-slate-600"><i class="fa-solid fa-circle-notch animate-spin text-base text-emerald-500 block mx-auto mb-1.5"></i> Mapping clusters...</div>
                     </div>
@@ -154,6 +151,8 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        // Import Cloud Storage Sub-Libraries
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDTbAZ1-8IQdNESIZ0Sg9Si3bGD0jL5D-M",
@@ -168,8 +167,8 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const storage = getStorage(app); // Active target storage references
 
-        // Track Identity Session Across Operations
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('security-lock-screen').classList.add('hidden');
@@ -199,6 +198,44 @@
             }
         };
 
+        // IMAGE FILE PROCESSING PIPELINE LOGIC FLUID ACTIONS
+        window.triggerNativeFilePicker = function() {
+            document.getElementById('hidden-file-input-element').click();
+        };
+
+        document.getElementById('hidden-file-input-element').addEventListener('change', async function(e) {
+            const activeFile = e.target.files[0];
+            if(!activeFile) return;
+
+            const statusLabel = document.getElementById('upload-status-indicator-tag');
+            statusLabel.classList.remove('hidden');
+
+            try {
+                // Generate secure hashed destination file paths matching timestamps
+                const storagePathRef = ref(storage, `article_media/${Date.now()}_${activeFile.name}`);
+                
+                // Upload binary content to Google Server array block
+                const snapshot = await uploadBytes(storagePathRef, activeFile);
+                
+                // Fetch public token URL back downstream
+                const completeCDNUrl = await getDownloadURL(snapshot.ref);
+
+                // Build a styled centered image element block
+                const structuralImageEmbedHtml = `<div class="my-6 flex flex-col items-center justify-center"><img src="${completeCDNUrl}" alt="Injected Article Diagram Graph" class="rounded-2xl border border-white/5 max-w-full h-auto shadow-2xl"></div><p><br></p>`;
+                
+                // Append directly where cursor focuses inside the workspace wrapper layout panels
+                document.getElementById('wysiwyg-editor-viewport').focus();
+                document.execCommand('insertHTML', false, structuralImageEmbedHtml);
+                
+                statusLabel.classList.add('hidden');
+                alert("Upload Completed Successfully.");
+            } catch (err) {
+                console.error(err);
+                statusLabel.classList.add('hidden');
+                alert("Upload Fault: Confirm your Firebase Storage settings have rules set to Public Test Mode.");
+            }
+        });
+
         async function dbFetchPosts() {
             try {
                 const blogCollectionRef = collection(db, "posts");
@@ -208,7 +245,6 @@
                 querySnapshot.forEach((doc) => { posts.push(doc.data()); });
                 return posts;
             } catch (err) {
-                console.error("Fetch Exception Handled: ", err);
                 return [];
             }
         }
@@ -219,7 +255,7 @@
                 await setDoc(docRef, postObj);
                 return true;
             } catch (err) {
-                alert("Permission Aborted: Confirm your Cloud Firestore Rules allow authorized write signatures.");
+                alert("Permission Interrupted: Check your Firestore rules parameters layout options.");
                 return false;
             }
         }
@@ -338,7 +374,7 @@
         };
 
         window.executeTargetRemovalSequence = async function(id) {
-            if(confirm('Warning context: Confirm permanent removal execution sequence on Firestore database document entry?')) {
+            if(confirm('Warning context: Confirm permanent removal execution sequence on database document entry?')) {
                 const clearSuccess = await dbDeletePost(id);
                 if(clearSuccess) {
                     await renderDashboardFeedList();
