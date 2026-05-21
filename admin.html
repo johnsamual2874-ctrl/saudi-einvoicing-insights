@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Console Control Matrix | Enterprise Content Management System</title>
+    <title>Enterprise Security Console | Content Management Suite</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .editor-btn { @apply p-2 text-slate-400 hover:text-emerald-400 hover:bg-slate-800 rounded-lg transition duration-150 text-sm font-medium min-w-[36px] h-9 flex items-center justify-center; }
         .editor-btn.active { @apply text-emerald-400 bg-slate-800 border border-emerald-500/20; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -23,7 +25,7 @@
                     <i class="fa-solid fa-vault"></i>
                 </div>
                 <h2 class="text-xl font-black tracking-tight text-white pt-2">Console Security Authorization</h2>
-                <p class="text-xs text-slate-400">Authenticate your credentials to manage cloud data nodes.</p>
+                <p class="text-xs text-slate-400">Authenticate your administrative account credentials to map secure data pools.</p>
             </div>
             <div class="space-y-4 text-left">
                 <div class="space-y-1.5">
@@ -43,33 +45,35 @@
     </div>
 
     <div id="dashboard-app-workspace" class="hidden flex-1 flex flex-col">
+        
         <header class="bg-slate-900 border-b border-slate-800 px-4 sm:px-6 py-4 flex items-center justify-between sticky top-0 z-50">
             <div class="flex items-center space-x-3">
                 <div class="bg-emerald-600 p-2 rounded-xl text-white shadow-md shadow-emerald-950"><i class="fa-solid fa-gauge-high text-lg"></i></div>
                 <div>
-                    <h1 class="text-base font-bold tracking-tight text-white">SEO Compliance Engine</h1>
-                    <p class="text-xs text-slate-400">Environment Node: <span class="text-emerald-400 font-mono">Independent Cluster</span></p>
+                    <h1 class="text-base font-bold tracking-tight text-white">SEO Compliance Control Desk</h1>
+                    <p class="text-xs text-slate-400">Database Engine: <span class="text-emerald-400 font-mono">Cloud Firestore Node</span></p>
                 </div>
             </div>
             <div class="flex items-center space-x-3">
-                <a href="index.html" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl transition flex items-center"><i class="fa-solid fa-globe mr-1.5"></i> Live Site</a>
-                <button onclick="terminateSessionLogout()" class="text-slate-400 hover:text-red-400 text-xs font-bold transition flex items-center bg-slate-950/40 border border-slate-800 px-3 py-2 rounded-xl"><i class="fa-solid fa-power-off"></i></button>
+                <a href="index.html" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl transition flex items-center shadow-md"><i class="fa-solid fa-globe mr-1.5"></i> Live Site</a>
+                <button onclick="terminateSessionLogout()" class="text-slate-400 hover:text-red-400 text-xs font-bold transition flex items-center bg-slate-950/40 border border-slate-800 px-3 py-2 rounded-xl" title="Terminate Active Session Identity"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </header>
 
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-3 gap-8 w-full flex-1">
+            
             <div class="lg:col-span-2 space-y-6">
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-5 shadow-xl">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-5 shadow-xl relative">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                         <h2 id="editor-panel-title" class="text-lg font-black tracking-tight text-white flex items-center text-emerald-400"><i class="fa-solid fa-square-plus mr-2"></i> Compose New Article</h2>
-                        <button id="cancel-edit-btn" onclick="resetEditorState()" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-1.5 rounded-lg border border-slate-700 transition">Cancel Edit</button>
+                        <button id="cancel-edit-btn" onclick="resetEditorState()" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-1.5 rounded-lg border border-slate-700 transition">Cancel Revision Mode</button>
                     </div>
 
                     <input type="hidden" id="edit-post-id" value="">
                     
                     <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Article Headline / Title</label>
-                        <input type="text" id="post-title" onkeyup="autoGenerateSEOSlug()" placeholder="e.g., Implementing Automated ZATCA Validation Frameworks" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-emerald-500 text-sm">
+                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Article Headline Headline (H1 Search Anchor)</label>
+                        <input type="text" id="post-title" onkeyup="autoGenerateSEOSlug()" placeholder="e.g., Implementing Automated ZATCA Validation Frameworks" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-emerald-500 text-sm transition">
                     </div>
 
                     <div class="grid md:grid-cols-3 gap-4">
@@ -89,53 +93,58 @@
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Meta Description Summary Snippet</label>
-                        <textarea id="post-summary" rows="2" placeholder="Search snippet text constructed to enhance click-through performance indexing charts..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white placeholder-slate-700 focus:outline-none focus:border-emerald-500 text-sm resize-none"></textarea>
+                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Meta Description Summary Snippet (SERP Optimization)</label>
+                        <textarea id="post-summary" rows="2" placeholder="Search snippet text constructed to enhance click-through performance indexing charts..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white placeholder-slate-700 focus:outline-none focus:border-emerald-500 text-sm resize-none tracking-normal"></textarea>
                     </div>
 
                     <div class="space-y-1.5">
                         <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Rich Text Content Core Body</label>
-                        <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden focus-within:border-emerald-500 transition">
+                        <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden focus-within:border-emerald-500 transition shadow-inner">
                             <div class="bg-slate-900 border-b border-slate-800 p-1.5 flex flex-wrap gap-1 items-center">
-                                <button type="button" onclick="execCmd('bold')" class="editor-btn"><i class="fa-solid fa-bold"></i></button>
-                                <button type="button" onclick="execCmd('italic')" class="editor-btn"><i class="fa-solid fa-italic"></i></button>
-                                <button type="button" onclick="execCmd('underline')" class="editor-btn"><i class="fa-solid fa-underline"></i></button>
+                                <button type="button" onclick="execCmd('bold')" class="editor-btn" title="Bold Text"><i class="fa-solid fa-bold"></i></button>
+                                <button type="button" onclick="execCmd('italic')" class="editor-btn" title="Italic Text"><i class="fa-solid fa-italic"></i></button>
+                                <button type="button" onclick="execCmd('underline')" class="editor-btn" title="Underline Text"><i class="fa-solid fa-underline"></i></button>
                                 <div class="w-[1px] h-5 bg-slate-800 mx-1"></div>
-                                <button type="button" onclick="execCmd('formatBlock', '<h3>')" class="editor-btn text-xs font-bold">H3</button>
-                                <button type="button" onclick="execCmd('formatBlock', '<h4>')" class="editor-btn text-xs font-bold">H4</button>
-                                <button type="button" onclick="execCmd('formatBlock', '<p>')" class="editor-btn text-xs">P</button>
+                                <button type="button" onclick="execCmd('formatBlock', '<h3>')" class="editor-btn text-xs font-bold" title="Heading Level 3">H3</button>
+                                <button type="button" onclick="execCmd('formatBlock', '<h4>')" class="editor-btn text-xs font-bold" title="Heading Level 4">H4</button>
+                                <button type="button" onclick="execCmd('formatBlock', '<p>')" class="editor-btn text-xs" title="Paragraph Standard">Paragraph</button>
                                 <div class="w-[1px] h-5 bg-slate-800 mx-1"></div>
-                                <button type="button" onclick="execCmd('justifyLeft')" class="editor-btn"><i class="fa-solid fa-align-left"></i></button>
-                                <button type="button" onclick="execCmd('justifyCenter')" class="editor-btn"><i class="fa-solid fa-align-center"></i></button>
-                                <button type="button" onclick="execCmd('justifyRight')" class="editor-btn"><i class="fa-solid fa-align-right"></i></button>
-                                <button type="button" onclick="execCmd('justifyFull')" class="editor-btn"><i class="fa-solid fa-align-justify"></i></button>
+                                <button type="button" onclick="execCmd('justifyLeft')" class="editor-btn" title="Justify Left"><i class="fa-solid fa-align-left"></i></button>
+                                <button type="button" onclick="execCmd('justifyCenter')" class="editor-btn" title="Justify Center"><i class="fa-solid fa-align-center"></i></button>
+                                <button type="button" onclick="execCmd('justifyRight')" class="editor-btn" title="Justify Right"><i class="fa-solid fa-align-right"></i></button>
+                                <button type="button" onclick="execCmd('justifyFull')" class="editor-btn" title="Justify Full Realignment Layout"><i class="fa-solid fa-align-justify"></i></button>
                                 <div class="w-[1px] h-5 bg-slate-800 mx-1"></div>
-                                <button type="button" onclick="insertLinkPrompt()" class="editor-btn"><i class="fa-solid fa-link"></i></button>
-                                <button type="button" onclick="execCmd('unlink')" class="editor-btn"><i class="fa-solid fa-link-slash"></i></button>
-                                <button type="button" onclick="execCmd('removeFormat')" class="editor-btn text-red-400"><i class="fa-solid fa-eraser"></i></button>
+                                <button type="button" onclick="insertLinkPrompt()" class="editor-btn" title="Insert Dynamic Hyperlink Target"><i class="fa-solid fa-link"></i></button>
+                                <button type="button" onclick="execCmd('unlink')" class="editor-btn" title="Purge Selected Anchor References"><i class="fa-solid fa-link-slash"></i></button>
+                                <button type="button" onclick="execCmd('removeFormat')" class="editor-btn text-red-400" title="Clear Structural Format Styles"><i class="fa-solid fa-eraser"></i></button>
                             </div>
-                            <div id="wysiwyg-editor-viewport" contenteditable="true" class="w-full min-h-[320px] max-h-[500px] overflow-y-auto px-4 py-4 text-white focus:outline-none text-base bg-slate-950 leading-relaxed space-y-4">
+                            <div id="wysiwyg-editor-viewport" contenteditable="true" class="w-full min-h-[340px] max-h-[500px] overflow-y-auto px-4 py-4 text-white focus:outline-none text-base bg-slate-950 leading-relaxed space-y-4">
                                 <p>Write your article here...</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="pt-2">
-                        <button onclick="processSubmitAction()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center">
-                            <i id="submit-btn-icon" class="fa-solid fa-square-check mr-2"></i> <span id="submit-btn-text">Save Article Content to Firestore</span>
+                    <div class="pt-1">
+                        <button onclick="processSubmitAction()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center cursor-pointer">
+                            <i id="submit-btn-icon" class="fa-solid fa-square-check mr-2"></i> <span id="submit-btn-text">Synchronize & Post Article Content to Firestore</span>
                         </button>
                     </div>
                 </div>
             </div>
 
             <div class="space-y-6">
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col max-h-[620px]">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col max-h-[660px]">
                     <div class="border-b border-slate-800 pb-3 mb-4 flex items-center justify-between">
-                        <h3 class="text-sm font-extrabold tracking-tight text-slate-200 flex items-center"><i class="fa-solid fa-folder-tree mr-2 text-emerald-400"></i> Indexed Feed Archive</h3>
-                        <span id="post-counter-badge" class="bg-slate-950 text-slate-400 font-mono text-[10px] px-2 py-0.5 rounded-full border border-slate-800">0 Posts</span>
-                    </div>
-                    <div id="admin-posts-container" class="space-y-3 overflow-y-auto flex-1 pr-1">
+                        <div class="space-y-0.5">
+                            <h3 class="text-sm font-extrabold tracking-tight text-slate-200 flex items-center"><i class="fa-solid fa-folder-tree mr-2 text-emerald-400"></i> Indexed Feed Archive</h3>
+                            <p class="text-[10px] text-slate-500 font-medium">Real-time live repository entries.</p>
                         </div>
+                        <span id="post-counter-badge" class="bg-slate-950 text-slate-400 font-mono text-[10px] px-2.5 py-0.5 rounded-full border border-slate-800">0 Posts</span>
+                    </div>
+                    
+                    <div id="admin-posts-container" class="space-y-3 overflow-y-auto flex-1 pr-1">
+                        <div class="text-center py-12 text-slate-600"><i class="fa-solid fa-circle-notch animate-spin text-base text-emerald-500 block mx-auto mb-1.5"></i> Mapping clusters...</div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -160,6 +169,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // Track Identity Session Across Operations
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('security-lock-screen').classList.add('hidden');
@@ -184,7 +194,9 @@
         };
 
         window.terminateSessionLogout = async function() {
-            await signOut(auth);
+            if(confirm("Confirm action: Terminate current administrative authorization session?")) {
+                await signOut(auth);
+            }
         };
 
         async function dbFetchPosts() {
@@ -196,6 +208,7 @@
                 querySnapshot.forEach((doc) => { posts.push(doc.data()); });
                 return posts;
             } catch (err) {
+                console.error("Fetch Exception Handled: ", err);
                 return [];
             }
         }
@@ -206,7 +219,7 @@
                 await setDoc(docRef, postObj);
                 return true;
             } catch (err) {
-                alert("Permission Interrupted: Double-check your Cloud Firestore rules.");
+                alert("Permission Aborted: Confirm your Cloud Firestore Rules allow authorized write signatures.");
                 return false;
             }
         }
@@ -227,7 +240,7 @@
         };
 
         window.insertLinkPrompt = function() {
-            const linkUrl = prompt("Enter hyperlink URL:");
+            const linkUrl = prompt("Enter full targeted destination hyperlink path (Include https://):");
             if (linkUrl) execCmd('createLink', linkUrl);
         };
 
@@ -249,20 +262,24 @@
             counterBadge.innerText = `${dataArray.length} Posts`;
 
             if(dataArray.length === 0) {
-                containerNode.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">No articles currently in cloud database node.</p>`;
+                containerNode.innerHTML = `
+                    <div class="text-center py-12 border border-dashed border-slate-800 rounded-xl text-slate-500 text-xs space-y-1">
+                        <i class="fa-solid fa-box-open text-base"></i>
+                        <p>No active articles stored on Cloud Firebase Firestore.</p>
+                    </div>`;
                 return;
             }
 
             dataArray.forEach(post => {
                 containerNode.innerHTML += `
-                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-start justify-between gap-4 shadow-sm">
-                        <div class="space-y-1 min-w-0">
-                            <h4 class="text-xs font-bold text-white tracking-tight truncate">${post.title}</h4>
-                            <p class="text-[10px] text-slate-500 font-mono"><i class="fa-solid fa-bookmark text-emerald-500"></i> ${post.category}</p>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-start justify-between gap-4 shadow-sm group">
+                        <div class="space-y-1 min-w-0 flex-1">
+                            <h4 class="text-xs font-bold text-white tracking-tight truncate group-hover:text-emerald-400 transition cursor-pointer" onclick="loadPostIntoEditorField(${post.id})">${post.title}</h4>
+                            <p class="text-[10px] text-slate-500 font-mono flex items-center gap-1.5"><i class="fa-solid fa-bookmark text-emerald-500"></i> ${post.category} | <i class="fa-solid fa-calendar text-slate-600"></i> ${post.date}</p>
                         </div>
-                        <div class="flex items-center space-x-1.5 shrink-0">
-                            <button onclick="loadPostIntoEditorField(${post.id})" class="text-slate-400 hover:text-blue-400 p-1.5 bg-slate-900 border border-slate-800 rounded-md text-xs"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="executeTargetRemovalSequence(${post.id})" class="text-slate-400 hover:text-red-400 p-1.5 bg-slate-900 border border-slate-800 rounded-md text-xs"><i class="fa-solid fa-trash-can"></i></button>
+                        <div class="flex items-center space-x-1.5 shrink-0 invisible group-hover:visible transition-all duration-150 pl-1">
+                            <button onclick="loadPostIntoEditorField(${post.id})" class="text-slate-400 hover:text-blue-400 p-1.5 bg-slate-900 border border-slate-800 rounded-md text-[11px]" title="Edit / Revise Entry Document"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="executeTargetRemovalSequence(${post.id})" class="text-slate-400 hover:text-red-400 p-1.5 bg-slate-900 border border-slate-800 rounded-md text-[11px]" title="Purge Record Collection Element"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>`;
             });
@@ -276,7 +293,7 @@
             const content = document.getElementById('wysiwyg-editor-viewport').innerHTML;
 
             if(!title || !summary || content === '<p><br></p>' || content === '') {
-                alert('Please enter all content variables.');
+                alert('Input Check Incomplete: Content verification parameters missing data values.');
                 return;
             }
 
@@ -296,7 +313,7 @@
             if(operationSuccess) {
                 resetEditorState();
                 await renderDashboardFeedList();
-                alert('Success: Database structural token updated.');
+                alert('Success: Cloud database cluster synchronized.');
             }
         };
 
@@ -312,8 +329,8 @@
                 document.getElementById('wysiwyg-editor-viewport').innerHTML = objective.content;
                 autoGenerateSEOSlug();
 
-                document.getElementById('editor-panel-title').innerHTML = `<i class="fa-solid fa-file-pen mr-2 text-blue-400"></i> Edit Article Mode`;
-                document.getElementById('submit-btn-text').innerText = "Apply Cloud Updates to Document";
+                document.getElementById('editor-panel-title').innerHTML = `<i class="fa-solid fa-file-pen mr-2 text-blue-400"></i> Edit/Revision Mode`;
+                document.getElementById('submit-btn-text').innerText = "Apply Cloud Updates to Document File";
                 document.getElementById('submit-btn-icon').className = "fa-solid fa-file-shield mr-2";
                 document.getElementById('cancel-edit-btn').classList.remove('hidden');
                 window.scrollTo({top: 0, behavior: 'smooth'});
@@ -321,7 +338,7 @@
         };
 
         window.executeTargetRemovalSequence = async function(id) {
-            if(confirm('Are you sure you want to delete this article from Firestore?')) {
+            if(confirm('Warning context: Confirm permanent removal execution sequence on Firestore database document entry?')) {
                 const clearSuccess = await dbDeletePost(id);
                 if(clearSuccess) {
                     await renderDashboardFeedList();
