@@ -11,12 +11,12 @@
 
     <header class="bg-slate-950 border-b border-slate-800 px-6 py-4 flex items-center justify-between">
         <div class="flex items-center space-x-3">
-            <div class="bg-blue-600 p-2 rounded-lg text-white">
+            <div class="bg-emerald-600 p-2 rounded-lg text-white">
                 <i class="fa-solid fa-user-gear text-lg"></i>
             </div>
             <div>
                 <h1 class="text-lg font-bold tracking-tight">Content Management System</h1>
-                <p class="text-xs text-slate-400">Target Funnel: <span class="text-blue-400 font-mono">quickdiceerp.com</span></p>
+                <p class="text-xs text-slate-400">Status: <span class="text-emerald-400 font-mono">Independent Blog</span></p>
             </div>
         </div>
         <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-2 rounded-xl transition flex items-center">
@@ -25,55 +25,52 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-3 gap-8">
-        
         <div class="lg:col-span-2 space-y-6">
             <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <h2 class="text-xl font-bold tracking-tight flex items-center text-blue-400"><i class="fa-solid fa-pen-to-square mr-2"></i> Compose Article Blueprint</h2>
-                    <span class="text-[11px] font-bold text-slate-500 uppercase bg-slate-900 px-2 py-1 rounded">HTML Enabled Engine</span>
+                    <h2 class="text-xl font-bold tracking-tight flex items-center text-emerald-400"><i class="fa-solid fa-pen-to-square mr-2"></i> Compose Article Blueprint</h2>
                 </div>
                 
                 <div class="space-y-1">
                     <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Article Headline Title</label>
-                    <input type="text" id="post-title" placeholder="e.g., Implementing Automated ZATCA Validation Frameworks" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 text-sm">
+                    <input type="text" id="post-title" placeholder="e.g., Implementing Automated ZATCA Validation Frameworks" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm">
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Editorial Category Tag</label>
-                        <select id="post-category" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 text-sm">
+                        <select id="post-category" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm">
                             <option value="ZATCA Compliance">ZATCA Compliance</option>
-                            <option value="Workforce Operations">Workforce Operations</option>
-                            <option value="Enterprise Finance">Enterprise Finance</option>
-                            <option value="Asset Management">Asset Management</option>
+                            <option value="Regulations">Regulations</option>
+                            <option value="Tax Advisory">Tax Advisory</option>
                         </select>
                     </div>
                     <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Publication Date Override</label>
-                        <input type="text" id="post-date" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500">
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Publication Date</label>
+                        <input type="text" id="post-date" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm">
                     </div>
                 </div>
 
                 <div class="space-y-1">
                     <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Search Engine Snippet Summary (SEO)</label>
-                    <textarea id="post-summary" rows="2" placeholder="Brief high-impact teaser text designed to convert search traffic listing click-throughs..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 text-sm resize-none"></textarea>
+                    <textarea id="post-summary" rows="2" placeholder="Brief high-impact teaser text..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm resize-none"></textarea>
                 </div>
 
                 <div class="space-y-1">
                     <div class="flex items-center justify-between">
                         <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Comprehensive Body Content</label>
                         <div class="flex space-x-2">
-                            <button onclick="injectHTML('<strong>', '</strong>')" class="bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded text-xs border border-slate-800 text-slate-300 font-mono" title="Bold Text font weight"><b>B</b></button>
-                            <button onclick="injectHTML('<h3>', '</h3>')" class="bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded text-xs border border-slate-800 text-slate-300 font-mono" title="Header level 3 tag">H3</button>
-                            <button onclick="injectQuickDiceLink()" class="bg-blue-950 hover:bg-blue-900 text-blue-400 px-2.5 py-1 rounded text-xs border border-blue-900/50 font-bold" title="Insert optimized link pointing directly back to QuickDice portal asset"><i class="fa-solid fa-link mr-1"></i> Add QuickDice Target Link</button>
+                            <button onclick="injectHTML('<strong>', '</strong>')" class="bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded text-xs border border-slate-800 text-slate-300 font-mono"><b>B</b></button>
+                            <button onclick="injectHTML('<h3>', '</h3>')" class="bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded text-xs border border-slate-800 text-slate-300 font-mono">H3</button>
+                            <button onclick="injectCustomLink()" class="bg-emerald-950 hover:bg-emerald-900 text-emerald-400 px-2.5 py-1 rounded text-xs border border-emerald-900/50 font-bold"><i class="fa-solid fa-link mr-1"></i> Add Link</button>
                         </div>
                     </div>
-                    <textarea id="post-content" rows="12" placeholder="Write or paste your article text here. Use HTML tags for fine formatting control." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white font-mono placeholder-slate-600 focus:outline-none focus:border-blue-500 text-sm"></textarea>
+                    <textarea id="post-content" rows="12" placeholder="Write your article text here. HTML tags are supported." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white font-mono text-sm"></textarea>
                 </div>
 
                 <div class="pt-2">
-                    <button onclick="savePost()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition duration-150 flex items-center justify-center">
-                        <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Commit & Publish Locally to Cluster Database
+                    <button onclick="savePost()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg flex items-center justify-center">
+                        <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Save Article Locally
                     </button>
                 </div>
             </div>
@@ -81,16 +78,16 @@
 
         <div class="space-y-6">
             <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
-                <h3 class="text-base font-extrabold tracking-tight border-b border-slate-800 pb-3 text-slate-200 flex items-center"><i class="fa-solid fa-folder-tree mr-2 text-indigo-400"></i> Active Index Items</h3>
+                <h3 class="text-base font-extrabold tracking-tight border-b border-slate-800 pb-3 text-slate-200 flex items-center"><i class="fa-solid fa-folder-tree mr-2 text-emerald-400"></i> Active Index Items</h3>
                 <div id="admin-posts-list" class="space-y-3 max-h-[400px] overflow-y-auto pr-1">
                     </div>
             </div>
 
-            <div class="bg-gradient-to-br from-indigo-950/40 to-slate-950 border border-indigo-900/30 rounded-2xl p-6 space-y-3 shadow-xl">
-                <h4 class="text-sm font-bold text-indigo-400 uppercase tracking-widest flex items-center"><i class="fa-solid fa-circle-nodes mr-2"></i> Sync To GitHub Pages</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">Because your site is deployed on GitHub Pages, manual database adjustments stay cached in your local browser window. To make your changes permanent globally, copy the database state below into your source files.</p>
-                <button onclick="exportJSONDataState()" class="w-full bg-indigo-900/40 hover:bg-indigo-900/60 border border-indigo-700/50 text-indigo-200 text-xs font-bold py-2 rounded-xl transition flex items-center justify-center">
-                    <i class="fa-solid fa-copy mr-1.5"></i> Export Database Payload State
+            <div class="bg-gradient-to-br from-emerald-950/20 to-slate-950 border border-slate-800 rounded-2xl p-6 space-y-3 shadow-xl">
+                <h4 class="text-sm font-bold text-emerald-400 uppercase tracking-widest flex items-center"><i class="fa-solid fa-circle-nodes mr-2"></i> Sync To GitHub Pages</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">Copy the database state payload below into your index.html file default variables to lock down changes globally.</p>
+                <button onclick="exportJSONDataState()" class="w-full bg-emerald-900/40 hover:bg-emerald-900/60 border border-emerald-700/50 text-emerald-200 text-xs font-bold py-2 rounded-xl transition flex items-center justify-center">
+                    <i class="fa-solid fa-copy mr-1.5"></i> Export Database State
                 </button>
             </div>
         </div>
@@ -114,7 +111,7 @@
             container.innerHTML = '';
 
             if(posts.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">No active content blocks initialized inside index array registry.</p>`;
+                container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">No active content blocks inside index registry.</p>`;
                 return;
             }
 
@@ -125,7 +122,7 @@
                             <h5 class="text-xs font-bold text-white tracking-tight truncate">${post.title}</h5>
                             <span class="text-[10px] font-mono text-slate-500 block">${post.category} | ${post.date}</span>
                         </div>
-                        <button onclick="deletePost(${post.id})" class="text-slate-500 hover:text-red-400 transition text-sm p-1" title="Purge Record">
+                        <button onclick="deletePost(${post.id})" class="text-slate-500 hover:text-red-400 transition text-sm p-1">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
@@ -142,8 +139,12 @@
             textarea.focus();
         }
 
-        function injectQuickDiceLink() {
-            const targetAnchorHtml = `<a href="https://quickdiceerp.com/" target="_blank" class="text-blue-600 font-bold underline hover:text-blue-700">QuickDice ERP Platform</a>`;
+        function injectCustomLink() {
+            const url = prompt("Enter the complete destination URL:");
+            if(!url) return;
+            const text = prompt("Enter the hyperlinked display text:");
+            if(!text) return;
+            const targetAnchorHtml = `<a href="${url}" target="_blank" class="text-emerald-600 font-bold underline hover:text-emerald-700">${text}</a>`;
             const textarea = document.getElementById('post-content');
             const currentPos = textarea.selectionStart;
             textarea.value = textarea.value.substring(0, currentPos) + targetAnchorHtml + textarea.value.substring(currentPos);
@@ -158,30 +159,22 @@
             const content = document.getElementById('post-content').value.trim();
 
             if(!title || !summary || !content) {
-                alert('Validation Interrupted: Please fill in all text input parameter nodes before publishing.');
+                alert('Please fill in all parameter fields before saving.');
                 return;
             }
 
             let posts = getPosts();
-            const newPost = {
-                id: Date.now(),
-                title,
-                category,
-                date,
-                summary,
-                content
-            };
+            const newPost = { id: Date.now(), title, category, date, summary, content };
 
             posts.unshift(newPost);
             localStorage.setItem('insights_blog_posts', JSON.stringify(posts));
             
-            // Flush input fields
             document.getElementById('post-title').value = '';
             document.getElementById('post-summary').value = '';
             document.getElementById('post-content').value = '';
             
             renderAdminList();
-            alert('Success: Article saved to browser environment cache.');
+            alert('Success: Article saved locally.');
         }
 
         function deletePost(id) {
@@ -196,7 +189,7 @@
         function exportJSONDataState() {
             const state = localStorage.getItem('insights_blog_posts');
             navigator.clipboard.writeText(state).then(() => {
-                alert("Database state string copied directly to clipboard interface! You can paste this array block over the variable 'DEFAULT_POSTS' inside your index.html file to lock down code permanence globally.");
+                alert("Database state string copied directly to clipboard! Paste this array block over the variable 'DEFAULT_POSTS' inside your index.html file to save your articles permanently.");
             });
         }
 
