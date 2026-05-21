@@ -162,28 +162,69 @@
         </main>
     </div>
 
-    <script>
-        // CLIENT SECURE PASSPHRASE HASH CONFIGURATION
-        const MASTER_AUTH_TOKEN = "admin123"; // Standard default dashboard authorization token (Modify as preferred)
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // ==========================================
-        // EXTENSIBLE DATABASE CONNECTOR HOOK INTERFACE
-        // (Swap these functions to point to Firebase collections later)
-        // ==========================================
+        // Your live web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDTbAZ1-8IQdNESIZ0Sg9Si3bGD0jL5D-M",
+            authDomain: "saudi-einvoicing-insights.firebaseapp.com",
+            projectId: "saudi-einvoicing-insights",
+            storageBucket: "saudi-einvoicing-insights.firebasestorage.app",
+            messagingSenderId: "229055730751",
+            appId: "1:229055730751:web:003941a6465e368c31948a",
+            measurementId: "G-92M22ZP5JH"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        const MASTER_AUTH_TOKEN = "admin123"; 
+
+        // Core Cloud Database Handler Operations
         async function dbFetchPosts() {
-            let data = localStorage.getItem('insights_blog_posts');
-            if(!data) return [];
-            return JSON.stringify(data).startsWith('[') || JSON.stringify(data).startsWith('"') ? JSON.parse(data) : [];
+            try {
+                const blogCollectionRef = collection(db, "posts");
+                const q = query(blogCollectionRef, orderBy("id", "desc"));
+                const querySnapshot = await getDocs(q);
+                const posts = [];
+                querySnapshot.forEach((doc) => {
+                    posts.push(doc.data());
+                });
+                return posts;
+            } catch (err) {
+                console.error("Database fetch exception error:", err);
+                return [];
+            }
         }
 
-        async function dbWritePost(updatedPostsArray) {
-            localStorage.setItem('insights_blog_posts', JSON.stringify(updatedPostsArray));
-            return true;
+        async function dbWritePost(postObj) {
+            try {
+                const docRef = doc(db, "posts", String(postObj.id));
+                await setDoc(docRef, postObj);
+                return true;
+            } catch (err) {
+                console.error("Database write exception reference:", err);
+                return false;
+            }
         }
-        // ==========================================
 
-        // Administrative Dashboard Security Logic Path Controllers
-        function verifyAccessAuthentication() {
+        async function dbDeletePost(postId) {
+            try {
+                const docRef = doc(db, "posts", String(postId));
+                await deleteDoc(docRef);
+                return true;
+            } catch (err) {
+                console.error("Database deletion target error context:", err);
+                return false;
+            }
+        }
+
+        window.verifyAccessAuthentication = function() {
             const entryValue = document.getElementById('security-passkey').value;
             if(entryValue === MASTER_AUTH_TOKEN) {
                 document.getElementById('security-lock-screen').classList.add('hidden');
@@ -194,9 +235,9 @@
                 errElement.classList.remove('hidden');
                 setTimeout(() => { errElement.classList.add('hidden'); }, 4000);
             }
-        }
+        };
 
-        function togglePasskeyVisibility() {
+        window.togglePasskeyVisibility = function() {
             const field = document.getElementById('security-passkey');
             const icon = document.getElementById('passkey-eye-icon');
             if(field.type === "password") {
@@ -206,38 +247,33 @@
                 field.type = "password";
                 icon.className = "fa-solid fa-eye text-xs";
             }
-        }
+        };
 
-        function terminateSessionLogout() {
+        window.terminateSessionLogout = function() {
             document.getElementById('security-passkey').value = '';
             document.getElementById('dashboard-app-workspace').classList.add('hidden');
             document.getElementById('security-lock-screen').classList.remove('hidden');
-        }
+        };
 
-        // WYSIWYG Editor Command Processing Core Utility
-        function execCmd(command, val = null) {
+        window.execCmd = function(command, val = null) {
             document.execCommand(command, false, val);
             document.getElementById('wysiwyg-editor-viewport').focus();
-        }
+        };
 
-        function insertLinkPrompt() {
-            const linkUrl = prompt("Enter complete hyperlink target destination path (Include http:// or https://):");
-            if (linkUrl) {
-                execCmd('createLink', linkUrl);
-            }
-        }
+        window.insertLinkPrompt = function() {
+            const linkUrl = prompt("Enter hyperlink URL (Include http:// or https://):");
+            if (linkUrl) execCmd('createLink', linkUrl);
+        };
 
-        // Automated SEO Engine Permalink Generators
-        function autoGenerateSEOSlug() {
+        window.autoGenerateSEOSlug = function() {
             const headlineText = document.getElementById('post-title').value;
             const processSlug = headlineText.toLowerCase()
                 .replace(/[^a-z0-9\s-]/g, '')
                 .replace(/\s+/g, '-')
                 .replace(/-+/g, '-');
             document.getElementById('post-slug').value = processSlug;
-        }
+        };
 
-        // App View State Render Controllers
         async function renderDashboardFeedList() {
             const dataArray = await dbFetchPosts();
             const containerNode = document.getElementById('admin-posts-container');
@@ -250,9 +286,8 @@
                 containerNode.innerHTML = `
                     <div class="text-center py-10 border border-dashed border-slate-800 rounded-xl text-slate-500 text-xs space-y-1">
                         <i class="fa-solid fa-box-open text-base"></i>
-                        <p>No published documents currently stored in system cluster.</p>
-                    </div>
-                `;
+                        <p>No active articles stored on Cloud Firebase Firestore.</p>
+                    </div>`;
                 return;
             }
 
@@ -264,15 +299,14 @@
                             <p class="text-[10px] text-slate-500 font-mono flex items-center gap-1.5"><i class="fa-solid fa-bookmark text-emerald-500"></i> ${post.category} | <i class="fa-solid fa-calendar"></i> ${post.date}</p>
                         </div>
                         <div class="flex items-center space-x-1.5 shrink-0 pl-2">
-                            <button onclick="loadPostIntoEditorField(${post.id})" class="text-slate-400 hover:text-blue-400 p-1.5 bg-slate-900 rounded-md border border-slate-800 transition text-xs" title="Modify Record Data"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="executeTargetRemovalSequence(${post.id})" class="text-slate-400 hover:text-red-400 p-1.5 bg-slate-900 rounded-md border border-slate-800 transition text-xs" title="Purge Record Structure"><i class="fa-solid fa-trash-can"></i></button>
+                            <button onclick="loadPostIntoEditorField(${post.id})" class="text-slate-400 hover:text-blue-400 p-1.5 bg-slate-900 rounded-md border border-slate-800 transition text-xs"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="executeTargetRemovalSequence(${post.id})" class="text-slate-400 hover:text-red-400 p-1.5 bg-slate-900 rounded-md border border-slate-800 transition text-xs"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
-        async function processSubmitAction() {
+        window.processSubmitAction = async function() {
             const targetIdValue = document.getElementById('edit-post-id').value;
             const title = document.getElementById('post-title').value.trim();
             const category = document.getElementById('post-category').value;
@@ -280,44 +314,35 @@
             const content = document.getElementById('wysiwyg-editor-viewport').innerHTML;
 
             if(!title || !summary || content === '<p><br></p>' || content === '') {
-                alert('Input Check Incomplete: Please verify content entry variables before updating records.');
+                alert('Input Check Incomplete: Content verification parameters failed.');
                 return;
             }
 
-            let postsData = await dbFetchPosts();
             const formatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
             const stampDate = new Date().toLocaleDateString('en-US', formatOptions);
 
-            if(targetIdValue) {
-                // UPDATE RUNS: Target modification operation
-                postsData = postsData.map(p => {
-                    if(p.id == targetIdValue) {
-                        return { ...p, title, category, summary, content };
-                    }
-                    return p;
-                });
+            const itemPayload = {
+                id: targetIdValue ? Number(targetIdValue) : Date.now(),
+                title,
+                category,
+                date: stampDate,
+                summary,
+                content
+            };
+
+            const operationSuccess = await dbWritePost(itemPayload);
+            if(operationSuccess) {
+                resetEditorState();
+                await renderDashboardFeedList();
+                alert('Success: Database item synchronized with cloud Firestore reference node.');
             } else {
-                // INSERT RUNS: Create new collection index item entry
-                const itemPayload = {
-                    id: Date.now(),
-                    title,
-                    category,
-                    date: stampDate,
-                    summary,
-                    content
-                };
-                postsData.unshift(itemPayload);
+                alert('Cloud Synchronization Aborted: Verify active network configurations.');
             }
+        };
 
-            await dbWritePost(postsData);
-            resetEditorState();
-            renderDashboardFeedList();
-            alert('Database Registry State Updated Successfully.');
-        }
-
-        async function loadPostIntoEditorField(id) {
-            const collection = await dbFetchPosts();
-            const objective = collection.find(p => p.id == id);
+        window.loadPostIntoEditorField = async function(id) {
+            const collectionData = await dbFetchPosts();
+            const objective = collectionData.find(p => p.id == id);
             
             if(objective) {
                 document.getElementById('edit-post-id').value = objective.id;
@@ -327,28 +352,25 @@
                 document.getElementById('wysiwyg-editor-viewport').innerHTML = objective.content;
                 autoGenerateSEOSlug();
 
-                // Swap UI context layouts to reflect an active Edit status
                 document.getElementById('editor-panel-title').innerHTML = `<i class="fa-solid fa-file-pen mr-2 text-blue-400"></i> Edit Article Mode`;
-                document.getElementById('submit-btn-text').innerText = "Apply Updates to Document";
+                document.getElementById('submit-btn-text').innerText = "Apply Cloud Updates to Document";
                 document.getElementById('submit-btn-icon').className = "fa-solid fa-file-shield mr-2";
                 document.getElementById('cancel-edit-btn').classList.remove('hidden');
                 window.scrollTo({top: 0, behavior: 'smooth'});
             }
-        }
+        };
 
-        async function executeTargetRemovalSequence(id) {
+        window.executeTargetRemovalSequence = async function(id) {
             if(confirm('Warning: Are you sure you want to permanently delete this item from your public database indices?')) {
-                let dataset = await dbFetchPosts();
-                dataset = dataset.filter(p => p.id != id);
-                await dbWritePost(dataset);
-                renderDashboardFeedList();
-                if(document.getElementById('edit-post-id').value == id) {
-                    resetEditorState();
+                const clearSuccess = await dbDeletePost(id);
+                if(clearSuccess) {
+                    await renderDashboardFeedList();
+                    if(document.getElementById('edit-post-id').value == id) resetEditorState();
                 }
             }
-        }
+        };
 
-        function resetEditorState() {
+        window.resetEditorState = function() {
             document.getElementById('edit-post-id').value = '';
             document.getElementById('post-title').value = '';
             document.getElementById('post-summary').value = '';
@@ -359,18 +381,17 @@
             document.getElementById('submit-btn-text').innerText = "Save Article Content Array";
             document.getElementById('submit-btn-icon').className = "fa-solid fa-square-check mr-2";
             document.getElementById('cancel-edit-btn').classList.add('hidden');
-        }
+        };
 
-        async function generateDatabaseJSONSyncState() {
-            const jsonOutput = localStorage.getItem('insights_blog_posts') || '[]';
-            navigator.clipboard.writeText(jsonOutput).then(() => {
-                alert("Static array state copied to clipboard! Paste this array over the 'DEFAULT_POSTS' variable within your index.html file to lock down public production files permanently.");
+        window.generateDatabaseJSONSyncState = async function() {
+            const jsonOutput = await dbFetchPosts();
+            navigator.clipboard.writeText(JSON.stringify(jsonOutput)).then(() => {
+                alert("Cloud state raw text backup cloned onto local clipboard context area.");
             });
-        }
+        };
 
         function initializeAdminDashboardEnvironment() {
             renderDashboardFeedList();
-            // Automatically listener fix for focus state empty space paragraph elements
             const viewport = document.getElementById('wysiwyg-editor-viewport');
             viewport.addEventListener('focus', function() {
                 if(this.innerHTML.trim() === '<p>Write your article here...</p>') {
@@ -379,7 +400,6 @@
             });
         }
 
-        // Catch Enter inputs to process identity token submission instantly
         document.getElementById('security-passkey').addEventListener('keypress', function(e) {
             if(e.key === 'Enter') verifyAccessAuthentication();
         });
