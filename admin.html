@@ -36,7 +36,7 @@
                     <input type="password" id="security-password" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 text-sm">
                 </div>
                 <div id="security-error-msg" class="text-xs text-red-400 font-semibold hidden flex items-center"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Invalid Credentials. Access Denied.</div>
-                <button onclick="verifyAccessAuthentication()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold py-3 px-4 rounded-xl shadow-lg shadow-emerald-950 transition duration-150 flex items-center justify-center">Verify Identity <i class="fa-solid fa-shield-halved ml-2 text-xs"></i></button>
+                <button onclick="verifyAccessAuthentication()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold py-3 px-4 rounded-xl shadow-lg shadow-emerald-950 transition duration-150 flex items-center justify-center cursor-pointer">Verify Identity <i class="fa-solid fa-shield-halved ml-2 text-xs"></i></button>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="flex items-center space-x-3">
                 <a href="index.html" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl transition flex items-center shadow-md"><i class="fa-solid fa-globe mr-1.5"></i> Live Site</a>
-                <button onclick="terminateSessionLogout()" class="text-slate-400 hover:text-red-400 text-xs font-bold transition flex items-center bg-slate-950/40 border border-slate-800 px-3 py-2 rounded-xl"><i class="fa-solid fa-power-off"></i></button>
+                <button onclick="terminateSessionLogout()" class="text-slate-400 hover:text-red-400 text-xs font-bold transition flex items-center bg-slate-950/40 border border-slate-800 px-3 py-2 rounded-xl cursor-pointer"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </header>
 
@@ -61,7 +61,7 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-5 shadow-xl">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                         <h2 id="editor-panel-title" class="text-lg font-black tracking-tight text-white flex items-center text-emerald-400"><i class="fa-solid fa-square-plus mr-2"></i> Compose New Article</h2>
-                        <button id="cancel-edit-btn" onclick="resetEditorState()" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-1.5 rounded-lg border border-slate-700 transition">Cancel Revision Mode</button>
+                        <button id="cancel-edit-btn" onclick="resetEditorState()" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-1.5 rounded-lg border border-slate-700 transition cursor-pointer">Cancel Revision Mode</button>
                     </div>
 
                     <input type="hidden" id="edit-post-id" value="">
@@ -112,7 +112,7 @@
                                 <button type="button" onclick="insertLinkPrompt()" class="editor-btn"><i class="fa-solid fa-link"></i></button>
                                 <button type="button" onclick="execCmd('unlink')" class="editor-btn"><i class="fa-solid fa-link-slash"></i></button>
                                 
-                                <button type="button" onclick="triggerNativeFilePicker()" class="editor-btn text-emerald-400 font-bold flex gap-1 items-center px-2.5" title="Upload image asset directly from your computer device files"><i class="fa-solid fa-cloud-arrow-up text-xs"></i> Add Image</button>
+                                <button type="button" onclick="triggerNativeFilePicker()" class="editor-btn text-emerald-400 font-bold flex gap-1 items-center px-2.5 cursor-pointer" title="Upload image asset directly from your computer device files"><i class="fa-solid fa-cloud-arrow-up text-xs"></i> Add Image</button>
                                 <input type="file" id="hidden-file-input-element" accept="image/*" class="hidden">
                                 
                                 <button type="button" onclick="execCmd('removeFormat')" class="editor-btn text-red-400"><i class="fa-solid fa-eraser"></i></button>
@@ -298,15 +298,16 @@
             }
 
             dataArray.forEach(post => {
+                // Fixed ID interpolation string preservation
                 containerNode.innerHTML += `
                     <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-start justify-between gap-4 shadow-sm group">
                         <div class="space-y-1 min-w-0 flex-1">
-                            <h4 class="text-xs font-bold text-white tracking-tight truncate group-hover:text-emerald-400 transition cursor-pointer" onclick="loadPostIntoEditorField(${post.id})">${post.title}</h4>
+                            <h4 class="text-xs font-bold text-white tracking-tight truncate group-hover:text-emerald-400 transition cursor-pointer" onclick="loadPostIntoEditorField('${post.id}')">${post.title}</h4>
                             <p class="text-[10px] text-slate-500 font-mono flex items-center gap-1.5"><i class="fa-solid fa-bookmark text-emerald-500"></i> ${post.category} | <i class="fa-solid fa-calendar text-slate-600"></i> ${post.date}</p>
                         </div>
                         <div class="flex items-center space-x-1.5 shrink-0 invisible group-hover:visible transition-all duration-150 pl-1">
-                            <button onclick="loadPostIntoEditorField(${post.id})" class="text-slate-400 hover:text-blue-400 p-1.5 bg-slate-900 border border-slate-800 rounded-md text-[11px]" title="Edit / Revise Entry Document"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="executeTargetRemovalSequence(${post.id})" class="text-slate-400 hover:text-red-400 p-1.5 bg-slate-900 border border-slate-800 rounded-md text-[11px]" title="Purge Record Collection Element"><i class="fa-solid fa-trash-can"></i></button>
+                            <button onclick="loadPostIntoEditorField('${post.id}')" class="text-slate-400 hover:text-blue-400 p-1.5 bg-slate-900 border border-slate-800 rounded-md text-[11px] cursor-pointer" title="Edit / Revise Entry Document"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="executeTargetRemovalSequence('${post.id}')" class="text-slate-400 hover:text-red-400 p-1.5 bg-slate-900 border border-slate-800 rounded-md text-[11px] cursor-pointer" title="Purge Record Collection Element"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>`;
             });
@@ -316,10 +317,11 @@
             const targetIdValue = document.getElementById('edit-post-id').value;
             const title = document.getElementById('post-title').value.trim();
             const category = document.getElementById('post-category').value;
+            const slug = document.getElementById('post-slug').value.trim(); // Collected slug field values
             const summary = document.getElementById('post-summary').value.trim();
             const content = document.getElementById('wysiwyg-editor-viewport').innerHTML;
 
-            if(!title || !summary || content === '<p><br></p>' || content === '') {
+            if(!title || !summary || !slug || content === '<p><br></p>' || content === '') {
                 alert('Input Check Incomplete: Content verification parameters missing data values.');
                 return;
             }
@@ -327,10 +329,12 @@
             const formatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
             const stampDate = new Date().toLocaleDateString('en-US', formatOptions);
 
+            // FIXED: "slug" parameter is now correctly stored in the dataset node
             const itemPayload = {
                 id: targetIdValue ? Number(targetIdValue) : Date.now(),
                 title,
                 category,
+                slug,
                 date: stampDate,
                 summary,
                 content
@@ -354,7 +358,9 @@
                 document.getElementById('post-category').value = objective.category;
                 document.getElementById('post-summary').value = objective.summary;
                 document.getElementById('wysiwyg-editor-viewport').innerHTML = objective.content;
-                autoGenerateSEOSlug();
+                
+                // FIXED: Populates the stored slug or defaults to generating one instead of breaking configuration bindings
+                document.getElementById('post-slug').value = objective.slug || objective.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
 
                 document.getElementById('editor-panel-title').innerHTML = `<i class="fa-solid fa-file-pen mr-2 text-blue-400"></i> Edit/Revision Mode`;
                 document.getElementById('submit-btn-text').innerText = "Apply Cloud Updates to Document File";
@@ -382,7 +388,7 @@
             document.getElementById('wysiwyg-editor-viewport').innerHTML = '<p>Write your article here...</p>';
             
             document.getElementById('editor-panel-title').innerHTML = `<i class="fa-solid fa-square-plus mr-2 text-emerald-400"></i> Compose New Article`;
-            document.getElementById('submit-btn-text').innerText = "Save Article Content to Firestore";
+            document.getElementById('submit-btn-text').innerText = "Synchronize & Post Article Content to Firestore";
             document.getElementById('submit-btn-icon').className = "fa-solid fa-square-check mr-2";
             document.getElementById('cancel-edit-btn').classList.add('hidden');
         };
