@@ -1,411 +1,431 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="google-site-verification" content="ktq2b1yaZdNoPorObnbGl4_QfX9Od36k4AZKYvnGDpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Security Console | Content Management Suite</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .editor-btn { @apply p-2 text-slate-400 hover:text-emerald-400 hover:bg-slate-800 rounded-lg transition duration-150 text-sm font-medium min-w-[36px] h-9 flex items-center justify-center; }
-        .editor-btn.active { @apply text-emerald-400 bg-slate-800 border border-emerald-500/20; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-    </style>
-</head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <div id="security-lock-screen" class="fixed inset-0 bg-slate-950 z-[9999] flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-6 md:p-8 shadow-2xl space-y-5 text-center">
-            <div class="space-y-2">
-                <div class="w-16 h-16 bg-emerald-950 text-emerald-400 border border-emerald-500/20 rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-xl"><i class="fa-solid fa-vault"></i></div>
-                <h2 class="text-xl font-black tracking-tight text-white pt-2">Console Security Authorization</h2>
-                <p class="text-xs text-slate-400">Authenticate your administrative credentials to sync database nodes.</p>
+<title>Professional CMS Admin Panel</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+<style>
+body{
+    font-family: 'Inter', sans-serif;
+}
+.ql-toolbar{
+    border-radius: 12px 12px 0 0;
+}
+.ql-container{
+    border-radius: 0 0 12px 12px;
+    height: 250px;
+}
+.sidebar-btn.active{
+    background:#1e293b;
+}
+</style>
+</head>
+
+<body class="bg-slate-100">
+
+<div id="auth-gate" class="fixed inset-0 bg-slate-950 flex items-center justify-center z-50 px-4">
+    <div class="bg-white p-10 rounded-3xl w-full max-w-md shadow-2xl">
+        <div class="text-center mb-6">
+            <div class="w-20 h-20 bg-blue-600 rounded-3xl mx-auto flex items-center justify-center text-white text-3xl font-bold">A</div>
+            <h1 class="text-4xl font-bold mt-5 text-slate-800">Admin Login</h1>
+            <p class="text-slate-500 mt-2">Secure access to dashboard via Auth</p>
+        </div>
+        
+        <div class="space-y-4">
+            <div>
+                <label class="block mb-1.5 text-sm font-semibold text-slate-700">Email Address</label>
+                <input type="email" id="gate-email" required placeholder="admin@domain.com" class="w-full border border-slate-300 rounded-2xl px-5 py-3.5 outline-none focus:ring-2 focus:ring-blue-500 text-slate-800"/>
             </div>
-            <div class="space-y-4 text-left">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Admin Email</label>
-                    <input type="email" id="security-email" placeholder="admin@email.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 text-sm">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Password</label>
-                    <input type="password" id="security-password" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 text-sm">
-                </div>
-                <div id="security-error-msg" class="text-xs text-red-400 font-semibold hidden flex items-center"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Invalid Credentials. Access Denied.</div>
-                <button onclick="verifyAccessAuthentication()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold py-3 px-4 rounded-xl shadow-lg shadow-emerald-950 transition duration-150 flex items-center justify-center cursor-pointer">Verify Identity <i class="fa-solid fa-shield-halved ml-2 text-xs"></i></button>
+            <div>
+                <label class="block mb-1.5 text-sm font-semibold text-slate-700">Password</label>
+                <input type="password" id="gate-pass" required placeholder="••••••••" class="w-full border border-slate-300 rounded-2xl px-5 py-3.5 outline-none focus:ring-2 focus:ring-blue-500 text-slate-800"/>
             </div>
         </div>
+
+        <button onclick="unlockDashboard()" class="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-4 rounded-2xl font-semibold mt-6 shadow-lg cursor-pointer">
+            Connect Dashboard
+        </button>
+        
+        <p id="gate-error" class="hidden text-red-500 text-center mt-4 font-medium text-sm border border-red-100 bg-red-50/50 p-3 rounded-xl"></p>
     </div>
+</div>
 
-    <div id="dashboard-app-workspace" class="hidden flex-1 flex flex-col">
-        <header class="bg-slate-900 border-b border-slate-800 px-4 sm:px-6 py-4 flex items-center justify-between sticky top-0 z-50">
-            <div class="flex items-center space-x-3">
-                <div class="bg-emerald-600 p-2 rounded-xl text-white shadow-md shadow-emerald-950"><i class="fa-solid fa-gauge-high text-lg"></i></div>
+<div id="dashboard-ui" class="hidden">
+    <div class="flex min-h-screen">
+        
+        <aside class="w-72 bg-slate-950 text-white p-6">
+            <div class="mb-12">
+                <h1 class="text-4xl font-extrabold text-blue-500">ISO Admin</h1>
+                <p class="text-slate-400 mt-2">Professional CMS Dashboard</p>
+            </div>
+            <nav class="space-y-3">
+                <button onclick="showSection('dashboard')" class="sidebar-btn active w-full text-left px-5 py-4 rounded-2xl transition hover:bg-slate-800 cursor-pointer">Dashboard</button>
+                <button onclick="showSection('analytics')" class="sidebar-btn w-full text-left px-5 py-4 rounded-2xl transition hover:bg-slate-800 cursor-pointer">Analytics</button>
+                <button onclick="showSection('settings')" class="sidebar-btn w-full text-left px-5 py-4 rounded-2xl transition hover:bg-slate-800 cursor-pointer">Settings</button>
+            </nav>
+        </aside>
+
+        <main class="flex-1">
+            <header class="bg-white border-b px-10 py-6 flex justify-between items-center">
                 <div>
-                    <h1 class="text-base font-bold tracking-tight text-white">SEO Compliance Control Desk</h1>
-                    <p class="text-xs text-slate-400">Database Engine: <span class="text-emerald-400 font-mono">Cloud Firestore + Storage Node</span></p>
+                    <h2 class="text-3xl font-bold text-slate-800">Dashboard</h2>
+                    <p class="text-slate-500 mt-1">Manage blogs and website content</p>
                 </div>
-            </div>
-            <div class="flex items-center space-x-3">
-                <a href="index.html" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl transition flex items-center shadow-md"><i class="fa-solid fa-globe mr-1.5"></i> Live Site</a>
-                <button onclick="terminateSessionLogout()" class="text-slate-400 hover:text-red-400 text-xs font-bold transition flex items-center bg-slate-950/40 border border-slate-800 px-3 py-2 rounded-xl cursor-pointer"><i class="fa-solid fa-power-off"></i></button>
-            </div>
-        </header>
+                <a href="index.html" class="bg-slate-900 hover:bg-black text-white px-6 py-3 rounded-2xl font-medium transition">Visit Website</a>
+            </header>
 
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-3 gap-8 w-full flex-1">
-            <div class="lg:col-span-2 space-y-6">
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-5 shadow-xl">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                        <h2 id="editor-panel-title" class="text-lg font-black tracking-tight text-white flex items-center text-emerald-400"><i class="fa-solid fa-square-plus mr-2"></i> Compose New Article</h2>
-                        <button id="cancel-edit-btn" onclick="resetEditorState()" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-1.5 rounded-lg border border-slate-700 transition cursor-pointer">Cancel Revision Mode</button>
+            <section id="dashboard-section" class="p-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                    <div class="bg-white rounded-3xl p-8 shadow-sm border">
+                        <p class="text-slate-500">Total Posts</p>
+                        <h2 id="total-posts" class="text-5xl font-bold mt-3 text-slate-800">0</h2>
                     </div>
+                    <div class="bg-white rounded-3xl p-8 shadow-sm border">
+                        <p class="text-slate-500">Database Status</p>
+                        <h2 class="text-4xl font-bold mt-3 text-green-600">Connected</h2>
+                    </div>
+                    <div class="bg-white rounded-3xl p-8 shadow-sm border">
+                        <p class="text-slate-500">Admin Access</p>
+                        <h2 class="text-4xl font-bold mt-3 text-blue-600">Active</h2>
+                    </div>
+                </div>
 
-                    <input type="hidden" id="edit-post-id" value="">
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
                     
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Article Headline Title</label>
-                        <input type="text" id="post-title" onkeyup="autoGenerateSEOSlug()" placeholder="e.g., Implementing Automated ZATCA Validation Frameworks" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-emerald-500 text-sm">
-                    </div>
-
-                    <div class="grid md:grid-cols-3 gap-4">
-                        <div class="space-y-1.5">
-                            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Category Routing</label>
-                            <select id="post-category" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-3 text-white focus:outline-none focus:border-emerald-500 text-sm">
-                                <option value="ZATCA Compliance">ZATCA Compliance</option>
-                                <option value="Regulations">Regulations</option>
-                                <option value="Tax Advisory">Tax Advisory</option>
-                                <option value="System Integration">System Integration</option>
-                            </select>
+                    <div class="bg-white rounded-3xl p-8 shadow-sm border">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 id="form-heading" class="text-2xl font-bold text-slate-800">Create New Blog</h2>
+                            <button id="cancel-edit-btn" onclick="resetFormState()" class="hidden text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-xl transition">Cancel Edit</button>
                         </div>
-                        <div class="space-y-1.5 md:col-span-2">
-                            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">SEO Target Permanent URL Slug</label>
-                            <input type="text" id="post-slug" placeholder="zatca-phase-2-integration-guide" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-400 font-mono text-xs focus:outline-none focus:border-emerald-500">
-                        </div>
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Meta Description Summary Snippet</label>
-                        <textarea id="post-summary" rows="2" placeholder="Search snippet text constructed to enhance click-through performance indexing charts..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500 text-sm resize-none"></textarea>
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Rich Text Content Core Body</label>
-                        <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden focus-within:border-emerald-500 transition">
-                            <div class="bg-slate-900 border-b border-slate-800 p-1.5 flex flex-wrap gap-1 items-center">
-                                <button type="button" onclick="execCmd('bold')" class="editor-btn"><i class="fa-solid fa-bold"></i></button>
-                                <button type="button" onclick="execCmd('italic')" class="editor-btn"><i class="fa-solid fa-italic"></i></button>
-                                <button type="button" onclick="execCmd('underline')" class="editor-btn"><i class="fa-solid fa-underline"></i></button>
-                                <div class="w-[1px] h-5 bg-slate-800 mx-1"></div>
-                                <button type="button" onclick="execCmd('formatBlock', '<h3>')" class="editor-btn text-xs font-bold">H3</button>
-                                <button type="button" onclick="execCmd('formatBlock', '<h4>')" class="editor-btn text-xs font-bold">H4</button>
-                                <button type="button" onclick="execCmd('formatBlock', '<p>')" class="editor-btn text-xs">P</button>
-                                <div class="w-[1px] h-5 bg-slate-800 mx-1"></div>
-                                <button type="button" onclick="execCmd('justifyLeft')" class="editor-btn"><i class="fa-solid fa-align-left"></i></button>
-                                <button type="button" onclick="execCmd('justifyCenter')" class="editor-btn"><i class="fa-solid fa-align-center"></i></button>
-                                <button type="button" onclick="execCmd('justifyRight')" class="editor-btn"><i class="fa-solid fa-align-right"></i></button>
-                                <button type="button" onclick="execCmd('justifyFull')" class="editor-btn"><i class="fa-solid fa-align-justify"></i></button>
-                                <div class="w-[1px] h-5 bg-slate-800 mx-1"></div>
-                                <button type="button" onclick="insertLinkPrompt()" class="editor-btn"><i class="fa-solid fa-link"></i></button>
-                                <button type="button" onclick="execCmd('unlink')" class="editor-btn"><i class="fa-solid fa-link-slash"></i></button>
-                                
-                                <button type="button" onclick="triggerNativeFilePicker()" class="editor-btn text-emerald-400 font-bold flex gap-1 items-center px-2.5 cursor-pointer" title="Upload image asset directly from your computer device files"><i class="fa-solid fa-cloud-arrow-up text-xs"></i> Add Image</button>
-                                <input type="file" id="hidden-file-input-element" accept="image/*" class="hidden">
-                                
-                                <button type="button" onclick="execCmd('removeFormat')" class="editor-btn text-red-400"><i class="fa-solid fa-eraser"></i></button>
-                                <span id="upload-status-indicator-tag" class="text-[10px] font-bold uppercase text-amber-400 px-2 hidden animate-pulse">Processing Upload...</span>
+                        <form id="post-form" class="space-y-5">
+                            <div>
+                                <label class="block mb-2 font-medium text-slate-700">Blog Title</label>
+                                <input type="text" id="post-title" required placeholder="Enter blog title" class="w-full border border-slate-300 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"/>
                             </div>
-                            <div id="wysiwyg-editor-viewport" contenteditable="true" class="w-full min-h-[340px] max-h-[500px] overflow-y-auto px-4 py-4 text-white focus:outline-none text-base bg-slate-950 leading-relaxed space-y-4">
-                                <p>Write your article here...</p>
+
+                            <div>
+                                <label class="block mb-2 font-medium text-slate-700">
+                                    Custom URL Slug <span class="text-xs text-slate-400 font-normal">(Optional)</span>
+                                </label>
+                                <input type="text" id="post-slug" placeholder="e.g., custom-seo-slug-here" class="w-full border border-slate-300 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm text-slate-700"/>
+                                <p class="text-xs text-slate-400 mt-1.5 px-1">Leave empty to auto-generate cleaner URL pathways from Title.</p>
                             </div>
+
+                            <div>
+                                <label class="block mb-2 font-medium text-slate-700">Upload Featured Image</label>
+                                <input type="file" id="post-image" accept="image/*" class="w-full border border-slate-300 rounded-2xl px-4 py-3 bg-white"/>
+                                <div id="existing-image-preview" class="hidden mt-3 p-2 bg-slate-50 rounded-xl border border-dashed flex items-center gap-3">
+                                    <img id="preview-img-element" src="" class="w-16 h-16 rounded-lg object-cover">
+                                    <span class="text-xs text-slate-500 font-medium">Active image retained unless a replacement file is chosen.</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block mb-2 font-medium text-slate-700">Blog Content</label>
+                                <div id="editor"></div>
+                            </div>
+
+                            <button type="submit" id="submit-form-btn" class="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-4 rounded-2xl font-semibold cursor-pointer">Publish Blog</button>
+                        </form>
+                    </div>
+
+                    <div class="xl:col-span-2 bg-white rounded-3xl p-8 shadow-sm border">
+                        <div class="flex justify-between items-center mb-8">
+                            <h2 class="text-2xl font-bold text-slate-800">Published Blogs</h2>
+                            <input type="text" id="search-posts" placeholder="Search blogs..." class="border border-slate-300 rounded-2xl px-4 py-3 outline-none"/>
+                        </div>
+                        <div id="admin-feed" class="space-y-5">
+                            <div class="text-slate-400">Loading blogs...</div>
                         </div>
                     </div>
 
-                    <div class="pt-1">
-                        <button onclick="processSubmitAction()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center cursor-pointer">
-                            <i id="submit-btn-icon" class="fa-solid fa-square-check mr-2"></i> <span id="submit-btn-text">Synchronize & Post Article Content to Firestore</span>
-                        </button>
+                </div>
+            </section>
+
+            <section id="analytics-section" class="hidden p-10">
+                <div class="bg-white rounded-3xl p-10 shadow-sm border">
+                    <h2 class="text-3xl font-bold mb-10 text-slate-800">Website Analytics</h2>
+                    <canvas id="analyticsChart"></canvas>
+                </div>
+            </section>
+
+            <section id="settings-section" class="hidden p-10">
+                <div class="bg-white rounded-3xl p-10 shadow-sm border max-w-4xl">
+                    <h2 class="text-3xl font-bold mb-10 text-slate-800">Website Settings</h2>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block mb-2 font-medium">Website Name</label>
+                            <input type="text" value="ISO Certification Guide" class="w-full border rounded-2xl px-4 py-3"/>
+                        </div>
+                        <div>
+                            <label class="block mb-2 font-medium">Admin Email</label>
+                            <input type="email" placeholder="admin@example.com" class="w-full border rounded-2xl px-4 py-3"/>
+                        </div>
+                        <div>
+                            <label class="block mb-2 font-medium">Homepage Description</label>
+                            <textarea rows="5" class="w-full border rounded-2xl px-4 py-3">Professional ISO certification blogs and compliance insights.</textarea>
+                        </div>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-semibold cursor-pointer">Save Settings</button>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="space-y-6">
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col max-h-[660px]">
-                    <div class="border-b border-slate-800 pb-3 mb-4 flex items-center justify-between">
-                        <div class="space-y-0.5">
-                            <h3 class="text-sm font-extrabold tracking-tight text-slate-200 flex items-center"><i class="fa-solid fa-folder-tree mr-2 text-emerald-400"></i> Indexed Feed Archive</h3>
-                        </div>
-                        <span id="post-counter-badge" class="bg-slate-950 text-slate-400 font-mono text-[10px] px-2.5 py-0.5 rounded-full border border-slate-800">0 Posts</span>
-                    </div>
-                    <div id="admin-posts-container" class="space-y-3 overflow-y-auto flex-1 pr-1">
-                        <div class="text-center py-12 text-slate-600"><i class="fa-solid fa-circle-notch animate-spin text-base text-emerald-500 block mx-auto mb-1.5"></i> Mapping clusters...</div>
-                    </div>
-                </div>
-            </div>
         </main>
     </div>
+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAq3IgYIFu7l6N_mKNVcyfWKDp1akTauDs",
+  authDomain: "iso-certification-guide.firebaseapp.com",
+  databaseURL: "https://iso-certification-guide-default-rtdb.firebaseio.com",
+  projectId: "iso-certification-guide",
+  storageBucket: "iso-certification-guide.firebasestorage.app",
+  messagingSenderId: "277771367161",
+  appId: "1:277771367161:web:0f61aef15bb9ce0d64a828"
+};
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDTbAZ1-8IQdNESIZ0Sg9Si3bGD0jL5D-M",
-            authDomain: "saudi-einvoicing-insights.firebaseapp.com",
-            projectId: "saudi-einvoicing-insights",
-            storageBucket: "saudi-einvoicing-insights.firebasestorage.app",
-            messagingSenderId: "229055730751",
-            appId: "1:229055730751:web:003941a6465e368c31948a",
-            measurementId: "G-92M22ZP5JH"
-        };
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+let editingBlogId = null;
+let currentRetainedImageURL = ''; // Tracking string references globally
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const storage = getStorage(app); 
+const quill = new Quill('#editor', {
+    theme: 'snow',
+    placeholder: 'Write professional blog content...',
+    modules: {
+        toolbar: [
+            [{ header: [1,2,3,false] }],
+            ['bold','italic','underline'],
+            [{ align: [] }],
+            [{ list:'ordered' },{ list:'bullet' }],
+            ['link','image'],
+            ['clean']
+        ]
+    }
+});
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById('security-lock-screen').classList.add('hidden');
-                document.getElementById('dashboard-app-workspace').classList.remove('hidden');
-                initializeAdminDashboardEnvironment();
-            } else {
-                document.getElementById('dashboard-app-workspace').classList.add('hidden');
-                document.getElementById('security-lock-screen').classList.remove('hidden');
-            }
-        });
+async function unlockDashboard(){
+    const email = document.getElementById('gate-email').value.trim();
+    const password = document.getElementById('gate-pass').value;
+    const errorContainer = document.getElementById('gate-error');
 
-        window.verifyAccessAuthentication = async function() {
-            const email = document.getElementById('security-email').value.trim();
-            const password = document.getElementById('security-password').value;
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                const errElement = document.getElementById('security-error-msg');
-                errElement.classList.remove('hidden');
-                setTimeout(() => { errElement.classList.add('hidden'); }, 4000);
-            }
-        };
+    if(!email || !password) {
+        errorContainer.innerText = "Please complete both fields.";
+        errorContainer.classList.remove('hidden');
+        return;
+    }
 
-        window.terminateSessionLogout = async function() {
-            if(confirm("Confirm action: Terminate current administrative authorization session?")) {
-                await signOut(auth);
-            }
-        };
+    try {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+        document.getElementById('auth-gate').classList.add('hidden');
+        document.getElementById('dashboard-ui').classList.remove('hidden');
+        errorContainer.classList.add('hidden');
+        loadBlogs();
+    } catch (error) {
+        console.error("Authentication routine error:", error);
+        errorContainer.innerText = "Invalid credentials or unauthorized access.";
+        errorContainer.classList.remove('hidden');
+    }
+}
 
-        window.triggerNativeFilePicker = function() {
-            document.getElementById('hidden-file-input-element').click();
-        };
+function showSection(section){
+    document.getElementById('dashboard-section').classList.add('hidden');
+    document.getElementById('analytics-section').classList.add('hidden');
+    document.getElementById('settings-section').classList.add('hidden');
+    document.getElementById(section + '-section').classList.remove('hidden');
+    
+    document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+}
 
-        document.getElementById('hidden-file-input-element').addEventListener('change', async function(e) {
-            const activeFile = e.target.files[0];
-            if(!activeFile) return;
+function createSlug(text){
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g,'') 
+        .replace(/\s+/g,'-')     
+        .replace(/-+/g,'-')      
+        .replace(/^-|-$/g,'');   
+}
 
-            const statusLabel = document.getElementById('upload-status-indicator-tag');
-            statusLabel.classList.remove('hidden');
+document.getElementById('post-form').addEventListener('submit', async function(e){
+    e.preventDefault();
 
-            try {
-                const storagePathRef = ref(storage, `article_media/${Date.now()}_${activeFile.name}`);
-                const snapshot = await uploadBytes(storagePathRef, activeFile);
-                const completeCDNUrl = await getDownloadURL(snapshot.ref);
-                const structuralImageEmbedHtml = `<div class="my-6 flex flex-col items-center justify-center"><img src="${completeCDNUrl}" alt="Injected Article Diagram Graph" class="rounded-2xl border border-white/5 max-w-full h-auto shadow-2xl"></div><p><br></p>`;
-                
-                document.getElementById('wysiwyg-editor-viewport').focus();
-                document.execCommand('insertHTML', false, structuralImageEmbedHtml);
-                
-                statusLabel.classList.add('hidden');
-                alert("Upload Completed Successfully.");
-            } catch (err) {
-                console.error(err);
-                statusLabel.classList.add('hidden');
-                alert("Upload Fault: Confirm your Firebase Storage settings have rules set to Public Test Mode.");
-            }
-        });
+    const title = document.getElementById('post-title').value;
+    const customSlugRaw = document.getElementById('post-slug').value;
+    const imageFile = document.getElementById('post-image').files[0];
+    const content = quill.root.innerHTML;
 
-        async function dbFetchPosts() {
-            try {
-                const blogCollectionRef = collection(db, "posts");
-                const q = query(blogCollectionRef, orderBy("id", "desc"));
-                const querySnapshot = await getDocs(q);
-                const posts = [];
-                querySnapshot.forEach((doc) => { posts.push(doc.data()); });
-                return posts;
-            } catch (err) {
-                return [];
-            }
+    const finalSlug = customSlugRaw.trim() ? createSlug(customSlugRaw) : createSlug(title);
+
+    try{
+        let imageURL = '';
+
+        if(imageFile){
+            const formData = new FormData();
+            formData.append('image', imageFile);
+
+            const response = await fetch(
+                'https://api.imgbb.com/1/upload?key=9d11a88447bf1e2f3adc76118bb6f724',
+                { method:'POST', body: formData }
+            );
+            const result = await response.json();
+            imageURL = result.data.url;
         }
 
-        async function dbWritePost(postObj) {
-            try {
-                const docRef = doc(db, "posts", String(postObj.id));
-                await setDoc(docRef, postObj);
-                return true;
-            } catch (err) {
-                alert("Permission Interrupted: Check your Firestore rules parameters layout options.");
-                return false;
-            }
+        if(editingBlogId){
+            // FIXED: If no new image was selected, preserve the original retained image string securely
+            const finalImage = imageURL || currentRetainedImageURL;
+
+            const updates = {
+                title: title,
+                slug: finalSlug,
+                image: finalImage,
+                content: content,
+                date: new Date().toLocaleDateString()
+            };
+
+            await database.ref('blogs/' + editingBlogId).update(updates);
+            alert('Blog Updated Successfully');
+            resetFormState();
         }
-
-        async function dbDeletePost(postId) {
-            try {
-                const docRef = doc(db, "posts", String(postId));
-                await deleteDoc(docRef);
-                return true;
-            } catch (err) {
-                return false;
-            }
-        }
-
-        window.execCmd = function(command, val = null) {
-            document.execCommand(command, false, val);
-            document.getElementById('wysiwyg-editor-viewport').focus();
-        };
-
-        window.insertLinkPrompt = function() {
-            const linkUrl = prompt("Enter full targeted destination hyperlink path (Include https://):");
-            if (linkUrl) execCmd('createLink', linkUrl);
-        };
-
-        window.autoGenerateSEOSlug = function() {
-            const headlineText = document.getElementById('post-title').value;
-            const processSlug = headlineText.toLowerCase()
-                .replace(/[^a-z0-9\s-]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-');
-            document.getElementById('post-slug').value = processSlug;
-        };
-
-        async function renderDashboardFeedList() {
-            const dataArray = await dbFetchPosts();
-            const containerNode = document.getElementById('admin-posts-container');
-            const counterBadge = document.getElementById('post-counter-badge');
-            
-            containerNode.innerHTML = '';
-            counterBadge.innerText = `${dataArray.length} Posts`;
-
-            if(dataArray.length === 0) {
-                containerNode.innerHTML = `
-                    <div class="text-center py-12 border border-dashed border-slate-800 rounded-xl text-slate-500 text-xs space-y-1">
-                        <i class="fa-solid fa-box-open text-base"></i>
-                        <p>No active articles stored on Cloud Firebase Firestore.</p>
-                    </div>`;
+        else{
+            if(!imageURL){
+                alert('Please select an image file to publish a new article entry.');
                 return;
             }
 
-            dataArray.forEach(post => {
-                // Fixed ID interpolation string preservation
-                containerNode.innerHTML += `
-                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-start justify-between gap-4 shadow-sm group">
-                        <div class="space-y-1 min-w-0 flex-1">
-                            <h4 class="text-xs font-bold text-white tracking-tight truncate group-hover:text-emerald-400 transition cursor-pointer" onclick="loadPostIntoEditorField('${post.id}')">${post.title}</h4>
-                            <p class="text-[10px] text-slate-500 font-mono flex items-center gap-1.5"><i class="fa-solid fa-bookmark text-emerald-500"></i> ${post.category} | <i class="fa-solid fa-calendar text-slate-600"></i> ${post.date}</p>
-                        </div>
-                        <div class="flex items-center space-x-1.5 shrink-0 invisible group-hover:visible transition-all duration-150 pl-1">
-                            <button onclick="loadPostIntoEditorField('${post.id}')" class="text-slate-400 hover:text-blue-400 p-1.5 bg-slate-900 border border-slate-800 rounded-md text-[11px] cursor-pointer" title="Edit / Revise Entry Document"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="executeTargetRemovalSequence('${post.id}')" class="text-slate-400 hover:text-red-400 p-1.5 bg-slate-900 border border-slate-800 rounded-md text-[11px] cursor-pointer" title="Purge Record Collection Element"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
-                    </div>`;
+            await database.ref('blogs').push({
+                title: title,
+                slug: finalSlug,
+                image: imageURL,
+                content: content,
+                date: new Date().toLocaleDateString(),
+                timestamp: Date.now()
             });
+
+            alert('Blog Published Successfully');
+            resetFormState();
         }
 
-        window.processSubmitAction = async function() {
-            const targetIdValue = document.getElementById('edit-post-id').value;
-            const title = document.getElementById('post-title').value.trim();
-            const category = document.getElementById('post-category').value;
-            const slug = document.getElementById('post-slug').value.trim(); // Collected slug field values
-            const summary = document.getElementById('post-summary').value.trim();
-            const content = document.getElementById('wysiwyg-editor-viewport').innerHTML;
+    }catch(error){
+        console.error(error);
+        alert(error.message);
+    }
+});
 
-            if(!title || !summary || !slug || content === '<p><br></p>' || content === '') {
-                alert('Input Check Incomplete: Content verification parameters missing data values.');
-                return;
-            }
+function loadBlogs(){
+    database.ref('blogs').on('value', (snapshot)=>{
+        const feed = document.getElementById('admin-feed');
+        feed.innerHTML = '';
+        const data = snapshot.val();
 
-            const formatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-            const stampDate = new Date().toLocaleDateString('en-US', formatOptions);
-
-            // FIXED: "slug" parameter is now correctly stored in the dataset node
-            const itemPayload = {
-                id: targetIdValue ? Number(targetIdValue) : Date.now(),
-                title,
-                category,
-                slug,
-                date: stampDate,
-                summary,
-                content
-            };
-
-            const operationSuccess = await dbWritePost(itemPayload);
-            if(operationSuccess) {
-                resetEditorState();
-                await renderDashboardFeedList();
-                alert('Success: Cloud database cluster synchronized.');
-            }
-        };
-
-        window.loadPostIntoEditorField = async function(id) {
-            const collectionData = await dbFetchPosts();
-            const objective = collectionData.find(p => p.id == id);
-            
-            if(objective) {
-                document.getElementById('edit-post-id').value = objective.id;
-                document.getElementById('post-title').value = objective.title;
-                document.getElementById('post-category').value = objective.category;
-                document.getElementById('post-summary').value = objective.summary;
-                document.getElementById('wysiwyg-editor-viewport').innerHTML = objective.content;
-                
-                // FIXED: Populates the stored slug or defaults to generating one instead of breaking configuration bindings
-                document.getElementById('post-slug').value = objective.slug || objective.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
-
-                document.getElementById('editor-panel-title').innerHTML = `<i class="fa-solid fa-file-pen mr-2 text-blue-400"></i> Edit/Revision Mode`;
-                document.getElementById('submit-btn-text').innerText = "Apply Cloud Updates to Document File";
-                document.getElementById('submit-btn-icon').className = "fa-solid fa-file-shield mr-2";
-                document.getElementById('cancel-edit-btn').classList.remove('hidden');
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            }
-        };
-
-        window.executeTargetRemovalSequence = async function(id) {
-            if(confirm('Warning context: Confirm permanent removal execution sequence on database document entry?')) {
-                const clearSuccess = await dbDeletePost(id);
-                if(clearSuccess) {
-                    await renderDashboardFeedList();
-                    if(document.getElementById('edit-post-id').value == id) resetEditorState();
-                }
-            }
-        };
-
-        window.resetEditorState = function() {
-            document.getElementById('edit-post-id').value = '';
-            document.getElementById('post-title').value = '';
-            document.getElementById('post-summary').value = '';
-            document.getElementById('post-slug').value = '';
-            document.getElementById('wysiwyg-editor-viewport').innerHTML = '<p>Write your article here...</p>';
-            
-            document.getElementById('editor-panel-title').innerHTML = `<i class="fa-solid fa-square-plus mr-2 text-emerald-400"></i> Compose New Article`;
-            document.getElementById('submit-btn-text').innerText = "Synchronize & Post Article Content to Firestore";
-            document.getElementById('submit-btn-icon').className = "fa-solid fa-square-check mr-2";
-            document.getElementById('cancel-edit-btn').classList.add('hidden');
-        };
-
-        function initializeAdminDashboardEnvironment() {
-            renderDashboardFeedList();
-            const viewport = document.getElementById('wysiwyg-editor-viewport');
-            viewport.onfocus = function() {
-                if(this.innerHTML.trim() === '<p>Write your article here...</p>') {
-                    this.innerHTML = '<p><br></p>';
-                }
-            };
+        if(!data){
+            feed.innerHTML = `<div class="text-slate-400">No blogs available</div>`;
+            return;
         }
 
-        document.getElementById('security-password').addEventListener('keypress', function(e) {
-            if(e.key === 'Enter') verifyAccessAuthentication();
+        const posts = Object.keys(data);
+        document.getElementById('total-posts').innerText = posts.length;
+
+        posts.reverse().forEach((key)=>{
+            const post = data[key];
+            feed.innerHTML += `
+                <div class="border border-slate-200 rounded-3xl p-5 bg-white hover:shadow-lg transition">
+                    <div class="flex justify-between gap-5 items-start">
+                        <div class="flex gap-5">
+                            <img src="${post.image || 'https://via.placeholder.com/120'}" class="w-28 h-28 rounded-2xl object-cover"/>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800 max-w-xl">${post.title}</h3>
+                                <p class="text-slate-500 mt-1 text-sm font-mono bg-slate-100 px-2 py-0.5 rounded w-fit text-slate-600">
+                                    slug: ${post.slug || '(none)'}
+                                </p>
+                                <p class="text-slate-400 mt-1 text-xs">${post.date}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <button onclick="editBlog('${key}')" class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-5 py-3 rounded-2xl h-fit cursor-pointer">Edit</button>
+                            <button onclick="deleteBlog('${key}')" class="bg-red-100 hover:bg-red-200 text-red-600 px-5 py-3 rounded-2xl h-fit cursor-pointer">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `;
         });
-    </script>
+    });
+}
+
+function editBlog(id){
+    database.ref('blogs/' + id).once('value').then((snapshot)=>{
+        const post = snapshot.val();
+
+        document.getElementById('post-title').value = post.title;
+        document.getElementById('post-slug').value = post.slug || '';
+        quill.root.innerHTML = post.content;
+
+        // Populate baseline fields tracking original content variables
+        editingBlogId = id;
+        currentRetainedImageURL = post.image || '';
+
+        // Inject previews tracking live variables layout bounds
+        if(currentRetainedImageURL){
+            document.getElementById('preview-img-element').src = currentRetainedImageURL;
+            document.getElementById('existing-image-preview').classList.remove('hidden');
+        }
+
+        document.getElementById('form-heading').innerText = 'Edit/Revision Mode';
+        document.getElementById('submit-form-btn').innerText = 'Update Blog Entry';
+        document.getElementById('cancel-edit-btn').classList.remove('hidden');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+function resetFormState() {
+    editingBlogId = null;
+    currentRetainedImageURL = '';
+    
+    document.getElementById('post-form').reset();
+    quill.root.innerHTML = '';
+    
+    document.getElementById('existing-image-preview').classList.add('hidden');
+    document.getElementById('preview-img-element').src = '';
+    
+    document.getElementById('form-heading').innerText = 'Create New Blog';
+    document.getElementById('submit-form-btn').innerText = 'Publish Blog';
+    document.getElementById('cancel-edit-btn').classList.add('hidden');
+}
+
+function deleteBlog(id){
+    if(confirm('Delete this blog permanently?')){
+        database.ref('blogs/' + id).remove();
+        if(editingBlogId === id) resetFormState();
+    }
+}
+
+new Chart(document.getElementById('analyticsChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Blogs','Visitors','Views','Comments'],
+        datasets: [{
+            label: 'Website Analytics',
+            data: [12,50,120,30],
+            backgroundColor: '#2563eb'
+        }]
+    }
+});
+</script>
 </body>
 </html>
