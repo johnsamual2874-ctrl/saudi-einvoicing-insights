@@ -9,10 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #030712; color: #f3f4f6; }
         
-        /* Premium Glass Framework Components */
         .glass-card { background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .glass-nav { background: rgba(3, 7, 18, 0.7); backdrop-filter: blur(20px); border-b: 1px solid rgba(255, 255, 255, 0.05); }
         .glow-emerald-mesh { box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.02), 0 30px 70px rgba(0, 0, 0, 0.8); }
@@ -44,7 +43,6 @@
 </head>
 <body class="antialiased selection:bg-emerald-500/20 selection:text-emerald-300">
 
-    <!-- Active Indicator Bar -->
     <div class="bg-gradient-to-r from-emerald-950 via-emerald-900 to-slate-950 text-emerald-400 text-xs font-semibold py-2.5 px-4 text-center border-b border-emerald-500/20 tracking-wide relative z-[60]">
         <span class="inline-flex items-center gap-2 animate-pulse">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -52,7 +50,6 @@
         </span>
     </div>
 
-    <!-- Header Panel -->
     <header class="glass-nav sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <a href="index.html" class="flex items-center space-x-3.5 group cursor-pointer">
@@ -72,10 +69,7 @@
         </div>
     </header>
 
-    <!-- Main Hero Dashboard Section -->
     <section class="relative min-h-[85vh] flex flex-col justify-between overflow-hidden pb-12 pt-4">
-        
-        <!-- Animated Fluid Background Graphics Elements -->
         <div class="absolute inset-0 z-0 pointer-events-none">
             <div class="absolute w-[700px] h-[700px] bg-gradient-to-tr from-emerald-500/10 via-teal-600/5 to-transparent rounded-full -top-[15%] -left-[5%] animate-fluid-1 blur-[90px]"></div>
             <div class="absolute w-[800px] h-[800px] bg-gradient-to-bl from-slate-900/40 via-emerald-600/5 to-transparent rounded-full -bottom-[15%] -right-[5%] animate-fluid-2 blur-[110px]"></div>
@@ -83,8 +77,6 @@
         </div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-12">
-            
-            <!-- Hero Description Blocks -->
             <div class="lg:col-span-7 flex flex-col justify-center space-y-6">
                 <div class="inline-flex self-start items-center gap-2.5 px-4 py-2 rounded-xl bg-white/[0.01] border border-white/[0.07] text-emerald-400 text-xs font-semibold tracking-widest uppercase shadow-2xl backdrop-blur-md">
                     <span class="relative flex h-2 w-2">
@@ -103,18 +95,12 @@
                     Deploy secure cryptographic invoicing workflows, monitor real-time integration waves, and minimize transaction processing liabilities across corporate systems in Saudi Arabia.[cite: 1]
                 </p>
 
-                <!-- Custom Targeted Text Search Input Wrapper -->
                 <div class="max-w-xl flex flex-col sm:flex-row gap-4 items-stretch relative pt-2">
                     <div class="relative flex-1 bg-white/[0.01] border border-white/[0.06] rounded-2xl backdrop-blur-xl shadow-2xl transition duration-300 focus-within:border-emerald-500/40 focus-within:bg-white/[0.02]">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <i class="fa-solid fa-magnifying-glass text-slate-600 text-sm"></i>
                         </div>
-                        <input
-                            type="text"
-                            id="search-input"
-                            placeholder="Query dynamic ZATCA compliance records..."
-                            class="w-full bg-transparent outline-none text-white pl-11 pr-4 py-4 placeholder-slate-600 font-medium tracking-wide text-sm"
-                        >
+                        <input type="text" id="search-input" placeholder="Query dynamic ZATCA compliance records..." class="w-full bg-transparent outline-none text-white pl-11 pr-4 py-4 placeholder-slate-600 font-medium tracking-wide text-sm">
                     </div>
                     <a href="#insights-view" class="px-7 py-4 rounded-2xl font-bold bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 shadow-xl shadow-emerald-500/10 transition duration-300 text-xs sm:text-sm font-extrabold tracking-wide flex items-center justify-center gap-2">
                         Analyze Vectors <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -122,7 +108,6 @@
                 </div>
             </div>
 
-            <!-- Isometric Visual Frame -->
             <div class="lg:col-span-5 w-full flex items-center justify-center h-[380px] sm:h-[480px] scale-95 relative select-none">
                 <div class="absolute w-[400px] h-[400px] bg-emerald-500/10 rounded-full animate-pulse-mesh z-0 pointer-events-none"></div>
 
@@ -183,17 +168,12 @@
         </div>
     </section>
 
-    <!-- Main Grid Content Feed Section -->
     <section id="insights-view" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-20">
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
             <div>
                 <div class="w-12 h-1 bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full mb-4"></div>
-                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                    Latest Insights & Blueprints[cite: 1]
-                </h2>
-                <p class="text-slate-400 mt-1.5 text-sm sm:text-base">
-                    Regulatory execution methodologies and corporate system breakdowns[cite: 1]
-                </p>
+                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Latest Insights & Blueprints[cite: 1]</h2>
+                <p class="text-slate-400 mt-1.5 text-sm sm:text-base">Regulatory execution methodologies and corporate system breakdowns[cite: 1]</p>
             </div>
         </div>
 
@@ -202,12 +182,10 @@
         </div>
     </section>
 
-    <!-- Footer Area -->
     <footer class="bg-slate-950 text-slate-500 border-t border-white/5 py-10 text-center text-xs">
         <p>&copy; 2026 Saudi E-Invoicing Insights Hub. Independent Information Channel.[cite: 1]</p>
     </footer>
 
-    <!-- Firebase Script Logic Infrastructure -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";[cite: 1]
         import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";[cite: 1]
@@ -249,7 +227,7 @@
             } catch (err) {[cite: 1]
                 console.error("Firebase fetch tracking fault: ", err);[cite: 1]
             }
-        }[cite: 1]
+        }
 
         function renderGridCards(posts) {[cite: 1]
             const container = document.getElementById('posts-container');[cite: 1]
@@ -257,9 +235,8 @@
 
             posts.forEach(post => {[cite: 1]
                 const targetSlug = post.slug || post.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');[cite: 1]
-                const summarySnippet = post.summary || (post.content ? post.content.replace(/<[^>]+>/g, '').substring(0, 110) + '...' : '');[cite: 1]
+                const summarySnippet = post.summary || '';[cite: 1]
                 
-                // FIXED: Direct clean folder paths configuration loop instead of dynamic hash tokens or query parameter tracking strings
                 container.innerHTML += `
                     <article class="bg-[#080d1a] rounded-[24px] overflow-hidden shadow-sm border border-white/[0.04] flex flex-col justify-between interactive-card group">
                         <div class="space-y-4 p-6">
@@ -268,23 +245,19 @@
                                 <p class="text-slate-500 text-[10px] font-mono font-medium">${post.date}</p>
                             </div>
                             <a href="${targetSlug}/" class="block">
-                                <h3 class="text-base font-bold leading-snug text-slate-100 group-hover:text-emerald-400 transition-colors duration-200 line-clamp-2">
-                                    ${post.title}
-                                </h3>
+                                <h3 class="text-base font-bold leading-snug text-slate-100 group-hover:text-emerald-400 transition-colors duration-200 line-clamp-2">${post.title}</h3>
                             </a>
                             <p class="text-slate-400 text-xs font-light leading-relaxed line-clamp-3">${summarySnippet}</p>
                         </div>
                         <div class="px-6 pb-6 pt-2">
                             <a href="${targetSlug}/" class="inline-flex w-full justify-center items-center gap-2 bg-white/[0.03] hover:bg-emerald-500 border border-white/5 hover:border-emerald-400 text-white hover:text-slate-950 font-bold text-xs px-5 py-3.5 rounded-xl transition-all duration-300">
-                                Read Blueprint 
-                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                Read Blueprint <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </a>
                         </div>
                     </article>`;[cite: 1]
             });
-        }[cite: 1]
+        }
 
-        // Local dynamic query text filtering engine
         document.getElementById('search-input').addEventListener('input', function() {[cite: 1]
             const inputVal = this.value.toLowerCase().trim();[cite: 1]
             const filteredArray = allPosts.filter(post =>[cite: 1]
@@ -292,7 +265,7 @@
                 (post.category && post.category.toLowerCase().includes(inputVal))[cite: 1]
             );[cite: 1]
             renderGridCards(filteredArray);[cite: 1]
-        });[cite: 1]
+        });
 
         window.onload = fetchArchiveCollectionFeed;[cite: 3]
     </script>
