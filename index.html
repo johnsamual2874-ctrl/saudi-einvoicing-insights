@@ -18,9 +18,6 @@
         .interactive-card:hover { transform: translateY(-6px); border-color: rgba(16, 185, 129, 0.3); box-shadow: 0 20px 40px -15px rgba(16, 185, 129, 0.1); }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .rendered-content h3 { font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-top: 1.5rem; margin-bottom: 0.75rem; }
-        .rendered-content p { color: #9ca3af; margin-bottom: 1.25rem; line-height: 1.75; text-align: justify; }
-        .rendered-content h4 { font-size: 1.25rem; font-weight: 600; color: #ffffff; margin-top: 1.25rem; margin-bottom: 0.5rem; }
     </style>
 </head>
 <body class="antialiased selection:bg-emerald-500/30 selection:text-emerald-300">
@@ -45,13 +42,14 @@
             </div>
             
             <nav class="flex items-center space-x-1 bg-slate-900/60 p-1.5 rounded-xl border border-white/5">
-                <button onclick="showSection('home')" id="nav-home" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-emerald-400 bg-emerald-500/10 transition duration-200">Home</button>
-                <button onclick="showSection('blog')" id="nav-blog" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition duration-200">Knowledge Base</button>
+                <button onclick="showSection('home')" id="nav-home" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-emerald-400 bg-emerald-500/10 transition duration-200 cursor-pointer">Home</button>
+                <button onclick="showSection('blog')" id="nav-blog" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition duration-200 cursor-pointer">Knowledge Base</button>
             </nav>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 relative z-10">
+        <!-- HOME SECTION -->
         <section id="home-section" class="space-y-24 animate-fade-in">
             <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
 
@@ -67,7 +65,7 @@
                         Deploy secure cryptographic invoicing workflows, monitor real-time integration waves, and minimize transaction processing liabilities across corporate systems in Saudi Arabia.
                     </p>
                     <div class="pt-4 flex flex-wrap gap-4">
-                        <button onclick="showSection('blog')" class="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-extrabold px-7 py-4 rounded-xl shadow-lg shadow-emerald-500/20 transition transform hover:-translate-y-0.5 flex items-center gap-2 text-sm">
+                        <button onclick="showSection('blog')" class="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-extrabold px-7 py-4 rounded-xl shadow-lg shadow-emerald-500/20 transition transform hover:-translate-y-0.5 flex items-center gap-2 text-sm cursor-pointer">
                             Access Compliance Repository <i class="fa-solid fa-arrow-right text-xs"></i>
                         </button>
                     </div>
@@ -101,40 +99,19 @@
                         <h2 class="text-xl md:text-2xl font-black text-white tracking-tight">Recent Compliance Intelligence</h2>
                         <p class="text-xs text-slate-500">Newly indexed architectural articles and development tutorials.</p>
                     </div>
-                    <button onclick="showSection('blog')" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 transition">View All Indices <i class="fa-solid fa-arrow-right"></i></button>
+                    <button onclick="showSection('blog')" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 transition cursor-pointer">View All Indices <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
-                <div id="featured-posts-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                </div>
+                <div id="featured-posts-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
         </section>
 
+        <!-- KNOWLEDGE BASE ARCHIVE SECTION -->
         <section id="blog-section" class="hidden space-y-10 animate-fade-in">
             <div class="max-w-2xl border-l-2 border-emerald-500 pl-4 space-y-1">
                 <h1 class="text-3xl font-black text-white tracking-tight">The Compliance Archive</h1>
                 <p class="text-sm text-slate-400 font-light">Searchable technical documentation, wave adjustments, and configuration logs.</p>
             </div>
-            <div id="all-posts-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            </div>
-        </section>
-
-        <section id="article-view-section" class="hidden animate-fade-in">
-            <div class="max-w-4xl mx-auto">
-                <button onclick="showSection('blog')" class="mb-8 inline-flex items-center font-bold text-xs text-slate-400 hover:text-white transition bg-slate-900 border border-white/5 px-4 py-2.5 rounded-xl shadow-sm cursor-pointer">
-                    <i class="fa-solid fa-chevron-left mr-2 text-[10px]"></i> Return to Feed
-                </button>
-                <article class="glass-panel rounded-3xl p-6 md:p-14 shadow-2xl relative">
-                    <div class="space-y-4 border-b border-slate-800 pb-8 mb-8">
-                        <span id="article-view-category" class="bg-emerald-500/10 text-emerald-400 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-md border border-emerald-500/20 inline-block">Category</span>
-                        <h1 id="article-view-title" class="text-2xl md:text-4xl font-black text-white tracking-tight leading-tight">Article Headline Placeholder</h1>
-                        <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500 pt-2 font-medium">
-                            <span id="article-view-date" class="flex items-center gap-1.5"><i class="fa-solid fa-calendar text-slate-600"></i> Date</span>
-                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-shield text-slate-600"></i> Systems Analyst</span>
-                        </div>
-                    </div>
-                    <div id="article-view-content" class="rendered-content text-slate-300 text-base md:text-lg tracking-normal font-light">
-                    </div>
-                </article>
-            </div>
+            <div id="all-posts-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </section>
     </main>
 
@@ -181,9 +158,6 @@
 
                 posts.forEach(post => { allGrid.innerHTML += createCardHtml(post); });
                 posts.slice(0, 3).forEach(post => { featuredGrid.innerHTML += createCardHtml(post); });
-                window.cachedBlogPosts = posts;
-                
-                checkIncomingPathSlugRoute();
 
             } catch (error) {
                 console.error("Firebase Database Load Error: ", error);
@@ -197,77 +171,35 @@
                 <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between interactive-card">
                     <div class="space-y-3.5">
                         <span class="bg-emerald-500/10 text-emerald-400 text-[9px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md border border-emerald-500/15 inline-block">${post.category}</span>
-                        <h3 class="text-lg font-bold text-white tracking-tight hover:text-emerald-400 cursor-pointer transition line-clamp-2" onclick="viewArticleBySlug('${activeSlug}')">${post.title}</h3>
+                        <a href="${activeSlug}/" class="block">
+                            <h3 class="text-lg font-bold text-white tracking-tight hover:text-emerald-400 transition line-clamp-2">${post.title}</h3>
+                        </a>
                         <p class="text-slate-400 text-xs font-light leading-relaxed line-clamp-3">${post.summary}</p>
                     </div>
                     <div class="pt-5 mt-5 border-t border-white/5 flex items-center justify-between text-[11px] font-medium text-slate-500">
                         <span><i class="fa-solid fa-calendar-days mr-1 text-slate-600"></i> ${post.date}</span>
-                        <button onclick="viewArticleBySlug('${activeSlug}')" class="text-emerald-400 font-bold hover:text-emerald-300 flex items-center gap-1 transition cursor-pointer">Analyze Guide <i class="fa-solid fa-chevron-right text-[9px]"></i></button>
+                        <a href="${activeSlug}/" class="text-emerald-400 font-bold hover:text-emerald-300 flex items-center gap-1 transition">Analyze Guide <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
                     </div>
                 </div>`;
         }
 
-        window.viewArticleBySlug = function(targetSlug) {
-            const target = window.cachedBlogPosts.find(p => {
-                const computed = p.slug || p.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
-                return computed === targetSlug;
-            });
-
-            if(target) {
-                document.getElementById('article-view-title').innerText = target.title;
-                document.getElementById('article-view-category').innerText = target.category;
-                document.getElementById('article-view-date').innerHTML = `<i class="fa-solid fa-calendar mr-1.5 text-slate-600"></i> ${target.date}`;
-                document.getElementById('article-view-content').innerHTML = target.content;
-                
-                showSection('article-view');
-                document.title = `${target.title} | Saudi E-Invoicing Insights`;
-
-                const cleanSlugPath = window.location.pathname.replace('index.html', '') + targetSlug;
-                window.history.pushState({ articleSlug: targetSlug }, document.title, cleanSlugPath);
-            }
-        };
-
         window.showSection = function(sectionId) {
             document.getElementById('home-section').classList.add('hidden');
             document.getElementById('blog-section').classList.add('hidden');
-            document.getElementById('article-view-section').classList.add('hidden');
             document.getElementById(`${sectionId}-section`).classList.remove('hidden');
             
             const homeBtn = document.getElementById('nav-home');
             const blogBtn = document.getElementById('nav-blog');
             
             if(sectionId === 'home') {
-                homeBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-emerald-400 bg-emerald-500/10 transition duration-200";
-                blogBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition duration-200";
-                window.history.pushState({}, "Saudi E-Invoicing Insights", window.location.pathname.split('/').slice(0, -1).join('/') + '/');
-                document.title = "Saudi E-Invoicing Insights | Independent ZATCA Compliance Hub";
+                homeBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-emerald-400 bg-emerald-500/10 transition duration-200 cursor-pointer";
+                blogBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition duration-200 cursor-pointer";
             } else if(sectionId === 'blog') {
-                blogBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-emerald-400 bg-emerald-500/10 transition duration-200";
-                homeBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition duration-200";
+                blogBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-emerald-400 bg-emerald-500/10 transition duration-200 cursor-pointer";
+                homeBtn.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition duration-200 cursor-pointer";
             }
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
-
-        function checkIncomingPathSlugRoute() {
-            const structuralPathSegment = window.location.pathname.split('/').filter(Boolean).pop();
-            if(structuralPathSegment && structuralPathSegment !== 'index.html' && structuralPathSegment !== 'blog.html') {
-                const verifiedObjectiveMatch = window.cachedBlogPosts.some(p => {
-                    const comp = p.slug || p.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
-                    return comp === structuralPathSegment;
-                });
-                if(verifiedObjectiveMatch) {
-                    window.viewArticleBySlug(structuralPathSegment);
-                }
-            }
-        }
-
-        window.addEventListener('popstate', function(event) {
-            if (event.state && event.state.articleSlug) {
-                window.viewArticleBySlug(event.state.articleSlug);
-            } else {
-                showSection('home');
-            }
-        });
 
         fetchAndRenderFeeds();
     </script>
