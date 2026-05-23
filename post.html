@@ -21,7 +21,8 @@
 
     <header class="glass-nav sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3.5 group cursor-pointer" onclick="window.location.href='index.html'">
+            <!-- FIXED: Relative link navigation points out to the site root directory folder -->
+            <div class="flex items-center space-x-3.5 group cursor-pointer" onclick="window.location.href='../index.html'">
                 <div class="bg-gradient-to-br from-emerald-500 to-teal-600 p-2.5 rounded-xl text-slate-950"><i class="fa-solid fa-server text-lg"></i></div>
                 <div>
                     <span class="text-lg font-black tracking-tight text-white block">Saudi E-Invoicing</span>
@@ -29,14 +30,16 @@
                 </div>
             </div>
             <nav class="flex items-center space-x-1 bg-slate-900/60 p-1.5 rounded-xl border border-white/5">
-                <a href="index.html" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">Home</a>
-                <a href="blog.html" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-emerald-400 bg-emerald-500/10">Knowledge Base</a>
+                <!-- FIXED: Stepped navigation links out one level up -->
+                <a href="../index.html" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">Home</a>
+                <a href="../blog.html" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-400 hover:text-white transition">Knowledge Base</a>
             </nav>
         </div>
     </header>
 
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 w-full">
-        <a href="blog.html" class="mb-8 inline-flex items-center font-bold text-xs text-slate-400 hover:text-white transition bg-slate-900 border border-white/5 px-4 py-2.5 rounded-xl shadow-sm"><i class="fa-solid fa-chevron-left mr-2 text-[10px]"></i> Return to Archive Feed</a>
+        <!-- FIXED: Stepped path out to feed archive file -->
+        <a href="../blog.html" class="mb-8 inline-flex items-center font-bold text-xs text-slate-400 hover:text-white transition bg-slate-900 border border-white/5 px-4 py-2.5 rounded-xl shadow-sm"><i class="fa-solid fa-chevron-left mr-2 text-[10px]"></i> Return to Archive Feed</a>
         
         <div id="error-fallback-view" class="hidden text-center py-12 glass-panel rounded-2xl border border-white/5"><i class="fa-solid fa-triangle-exclamation text-red-400 text-3xl mb-2 block"></i><p class="text-sm text-slate-400">Target document reference identity missing from workspace nodes.</p></div>
 
@@ -50,7 +53,7 @@
                 </div>
             </div>
             <div id="article-view-content" class="rendered-content text-slate-300 text-base md:text-lg tracking-normal font-light">
-                </div>
+            </div>
         </article>
     </main>
 
@@ -60,7 +63,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDTbAZ1-8IQdNESIZ0Sg9Si3bGD0jL5D-M",
@@ -75,26 +78,25 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        async function loadTargetArticleDocument() {
-            const URLParameters = new URLSearchParams(window.location.search);
-            const postSlugToken = URLParameters.get('article');
+        // =========================================================================
+        // CHANGE THIS SLUG FOR EACH UNIQUE SUBFOLDER INDEX.HTML YOU CREATE
+        // =========================================================================
+        const currentSlug = "how-enterprises-can-simplify-complex-financial-compliance-requirements";
 
-            if(!postSlugToken) {
+        async function loadTargetArticleDocument() {
+            if(!currentSlug) {
                 document.getElementById('error-fallback-view').classList.remove('hidden');
                 return;
             }
 
             try {
-                // Fetch collection list array metrics context nodes
-                const querySnapshot = await getDocs(collection(db, "posts"));
+                // Optimized query selector filters parameters instantly out from Firestore records
+                const q = query(collection(db, "posts"), where("slug", "==", currentSlug));
+                const querySnapshot = await getDocs(q);
                 let matchedPost = null;
 
                 querySnapshot.forEach((doc) => {
-                    const post = doc.data();
-                    const computedSlug = post.slug || post.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
-                    if(computedSlug === postSlugToken) {
-                        matchedPost = post;
-                    }
+                    matchedPost = doc.data();
                 });
 
                 if(matchedPost) {
@@ -105,11 +107,6 @@
                     
                     document.getElementById('article-view-core').classList.remove('hidden');
                     document.title = `${matchedPost.title} | Saudi E-Invoicing Insights`;
-
-                    // ⚡ ADVANCED HISTORY REWRITE: Wipe out parameters from address path
-                    const cleanPathURL = window.location.pathname.replace('post.html', '') + postSlugToken;
-                    window.history.replaceState({}, document.title, cleanPathURL);
-
                 } else {
                     document.getElementById('error-fallback-view').classList.remove('hidden');
                 }
